@@ -1,0 +1,148 @@
+<html>
+    <head>
+        <title>Welcome to UConn's Job Search Database</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css"
+            href="https://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+        </link>
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	</head>
+   <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js">
+    </script>
+        
+        <script>
+        $(document).ready(function() {
+            var u = localStorage.getItem("user");
+        		$("#example").DataTable({
+                    
+      				"paging" : false,
+      				"ordering" : false,
+      				"info" : false,
+      				"searching": false,
+      				"ajax" : {
+        					"url" : "new_jobs/2001-01-01/2008-01-01",//seeker_jobs/" + u,
+							"dataSrc" : "",
+      				},
+      				columns: [
+            			{ data: "JobTitle" },
+            			{ data: "JListDate" },
+          			{ data: "JobID" },
+      			]
+   			});
+        
+				$("#search").click(function(){
+            	var url = "searchscreen"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+        		$("#manageapplications").click(function(){
+            	var url = "manageapplications"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+         $("#updateresume").click(function(){
+            var url = "resumeupdate"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+         $("#updateprofile").click(function(){
+            var url = "updateprofile"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+ 			$('#example tbody').on( 'click', 'tr', function () {
+        			$(this).toggleClass('selected');
+    			} );
+
+        $("#applytoselected").click(function(){
+            var t = $("#example").DataTable();
+            var ids = [];
+				var sr = t.rows('.selected').data();
+				sr.each(function(row) {
+					ids[ids.length] = row.JobID;
+				});
+				var data = {
+					"username" : u,	
+					"jobids" : ids
+				};
+            $.ajax({
+                    url: "add_jobs", // login.php
+                    type: "POST",
+                    data: data,
+                    success:
+                        function(result){
+                            alert(result);
+                           // var url = "main";//http://127.0.0.1:8080/figure6.html";
+                            //$(location).attr('href',url);
+                            //$("#login").hide();
+                            //$("#nextpage").show();
+                        },
+                    error: 
+                        function(result){
+                           alert("Error:" + result);    
+                        }
+                        
+                });
+        });
+        
+        $("#selectall").click(function(){
+            var t = $("#example").DataTable();
+            //var sr = t.rows();
+            //sr.each(function(row) {
+			//		console.log(row);
+			//	});
+            
+            
+        });   
+            
+        $("#clearall").click(function(){
+             var t = $("#example").DataTable();
+            $(":checkbox", t.rows().nodes()).prop("checked",false);
+        });
+        $("#exit").click(function(){
+            localStorage.removeItem("user");
+            var url = "login"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+        });    
+        
+        
+    </script>
+            
+    
+    <body>
+        <h1> Job Search Database </h1>
+        
+        <p>
+            Welcome to the main screen.
+            </p>
+        <p>
+            <button id=search>Search</button>
+            <button id=manageapplications>Manage Applications</button>
+            <button id=updateresume>Update Resume</button>
+            <button id=updateprofile>Update Profile</button>
+            <button id=applytoselected>Apply to Selected</button>
+            <button id=selectall>Select All</button>
+            <button id=clearall>Clear All</button>
+            <button id=exit>Exit</button>
+            
+        </p>
+        
+        <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>List Date</th>
+                <th>Job ID</th>
+            </tr>
+        </thead>
+            </table>
+
+
+    
+    </body>
+<html>
