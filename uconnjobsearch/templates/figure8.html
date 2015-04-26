@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Applications: Welcome to UConn's Job Search Database</title>
+<<<<<<< HEAD
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css"
             href="https://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
@@ -12,6 +13,13 @@
         <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
         
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+=======
+        <link rel="stylesheet" type="text/css"
+            href="https://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+        </link>
+    </head>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+>>>>>>> origin/master
     <script src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js">
     </script>
         <script>
@@ -28,11 +36,29 @@
          "dataSrc" : "",
       },
       columns: [
+<<<<<<< HEAD
+=======
+//ULName":"Bailey","UFName":"Eric","CName":"Gefion, Inc.","JobID":"28","JListDate":"2001-01-28","JobTitle":"Physical Scientists"
+            {
+                render: function ( data, type, row ) {
+                    if ( type === 'display' ) {
+                        if ( data == 'Y' ) {
+                           return '<input type="checkbox" checked class="editor-active">';
+                        } else {
+                           return '<input type="checkbox" class="editor-active">';
+                        }
+                    }
+                    return data;
+                },
+                className: "dt-body-center"
+            },
+>>>>>>> origin/master
             { data: "JobTitle" },
             { data: "JListDate" },
           { data: "JobID" },
       ]
    });
+<<<<<<< HEAD
             	$('#example tbody').on( 'click', 'tr', function () {
         			$(this).toggleClass('selected');
     			} );
@@ -48,6 +74,17 @@
 					"username" : u,	
 					"jobids" : ids
 				};
+=======
+            
+        $("#deleteselected").click(function(){
+            var t = $("#example").DataTable();
+            var ids = [];
+            $("input:checked", t.rows().nodes()).each(function(data){
+                console.log($(this).val());
+                ids[ids.length] = "12";
+            });
+            console.log(ids);
+>>>>>>> origin/master
             $.ajax({
                     url: "delete_jobs", // login.php
                     type: "POST",
@@ -70,17 +107,26 @@
             
         $("#selectall").click(function(){
             var t = $("#example").DataTable();
+<<<<<<< HEAD
             t.rows(function(i,d,n){
                 return true;
             }).nodes().to$().addClass("selected");
+=======
+            $(":checkbox", t.rows().nodes()).prop("checked",true);
+>>>>>>> origin/master
             
         });   
             
         $("#clearall").click(function(){
+<<<<<<< HEAD
             var t = $("#example").DataTable();
             t.rows(function(i,d,n){
                 return true;
             }).nodes().to$().removeClass("selected");
+=======
+             var t = $("#example").DataTable();
+            $(":checkbox", t.rows().nodes()).prop("checked",false);
+>>>>>>> origin/master
         });
         $("#ms").click(function(){
             localStorage.removeItem("user");
@@ -102,6 +148,10 @@
             <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
+<<<<<<< HEAD
+=======
+                <th>Select</th>
+>>>>>>> origin/master
                 <th>Company</th>
                 <th>List Date</th>
                 <th>Job ID</th>
