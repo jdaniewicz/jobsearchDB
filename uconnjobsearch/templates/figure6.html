@@ -90,17 +90,17 @@
         
         $("#selectall").click(function(){
             var t = $("#example").DataTable();
-            //var sr = t.rows();
-            //sr.each(function(row) {
-			//		console.log(row);
-			//	});
-            
+            t.rows(function(i,d,n){
+                return true;
+            }).nodes().to$().addClass("selected");
             
         });   
             
         $("#clearall").click(function(){
-             var t = $("#example").DataTable();
-            $(":checkbox", t.rows().nodes()).prop("checked",false);
+            var t = $("#example").DataTable();
+            t.rows(function(i,d,n){
+                return true;
+            }).nodes().to$().removeClass("selected");
         });
         $("#exit").click(function(){
             localStorage.removeItem("user");

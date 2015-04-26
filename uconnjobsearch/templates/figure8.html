@@ -70,13 +70,17 @@
             
         $("#selectall").click(function(){
             var t = $("#example").DataTable();
-            $(":checkbox", t.rows().nodes()).prop("checked",true);
+            t.rows(function(i,d,n){
+                return true;
+            }).nodes().to$().addClass("selected");
             
         });   
             
         $("#clearall").click(function(){
-             var t = $("#example").DataTable();
-            $(":checkbox", t.rows().nodes()).prop("checked",false);
+            var t = $("#example").DataTable();
+            t.rows(function(i,d,n){
+                return true;
+            }).nodes().to$().removeClass("selected");
         });
         $("#ms").click(function(){
             localStorage.removeItem("user");
