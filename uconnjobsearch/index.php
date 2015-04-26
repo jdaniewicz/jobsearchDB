@@ -85,6 +85,73 @@ $app->get('/', function() use($app)
 {
 	$app->render('test.html');
 });
+$app->get('/login', function() use($app)
+{
+	$app->render('figure1.html');
+});
+
+$app->get('/newuser', function() use($app)
+{
+	$app->render('figure3.html');
+});
+
+$app->get('/main', function() use($app)
+{
+	$app->render('figure6.html');
+});
+
+$app->get('/searchscreen', function() use($app)
+{
+	$app->render('figure7.html');
+});
+
+$app->get('/manageapplications', function() use($app)
+{
+	$app->render('figure8.html');
+});
+
+$app->get('/resumeupdate', function() use($app)
+{
+	$app->render('figure9.html');
+});
+
+$app->get('/resumeupdateeducation', function() use($app)
+{
+	$app->render('figure10.html');
+});
+
+$app->get('/educationentryscreen', function() use($app)
+{
+	$app->render('figure11.html');
+});
+
+$app->get('/resumeupdateexperience', function() use($app)
+{
+	$app->render('figure12.html');
+});
+
+$app->get('/experienceentry', function() use($app)
+{
+	$app->render('figure13.html');
+});
+
+$app->get('/updateskill', function() use($app)
+{
+	$app->render('figure14.html');
+});
+
+$app->get('/updateprofile', function() use($app)
+{
+	$app->render('figure15.html');
+});
+
+$app->get('/jobdetailscreen', function() use($app)
+{
+	$app->render('figure16.html');
+});
+$app->post('/login_check', function() use ($app) {
+    
+});
 /*********************************************************/
 
 
