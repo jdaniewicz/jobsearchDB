@@ -30,6 +30,37 @@ $app = new \Slim\Slim();
  * is an anonymous function.
  */
 
+function verifyUserCredentials($userName, $password)
+{
+	$isInfoCorrect = FALSE;
+	$sql = "CALL verifyUserNameAndPassword( ". $userName .", ". $password .")";
+	
+	$dbServerName = "localhost";
+    $dbUser = "root";
+    $dbPassword = "";
+    $dbName = "uconnjobsearch";
+	
+	$result = NULL;
+    
+	// Create connection
+    $conn = new mysqli($dbServerName, $dbUser, $dbPassword, $dbName);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } else {
+	    $result = $conn->query($sql);
+		
+		if ($result->num_rows == 1) {
+		    $isInfoCorrect = TRUE;
+		} else {
+			$isInfoCorrect = FALSE;
+		}
+		
+		$conn->close();
+		return $isInfoCorrect;
+    }
+}
  // Opens and closes a connection to the DB returning its response to provided query
 function queryTheDB($sql)
 {
@@ -81,10 +112,40 @@ function putInSingleQuotes($parameter)
 // you would replace '/' with '/something' and 'test.html' with 'roflcopter.html' making sure
 // roflcopter.html is actually in the templates folder.
 
-$app->get('/', function() use($app)
+
+/** MINI TEST STATIONS FOR JEFF **/
+$app->get('/logout/', function() use($app)
 {
-	$app->render('test.html');
+	session_start();
+	if(isset($_SESSION['userName']))
+	{
+		
+		session_destroy();
+		echo "YOU HAVE LOGGED OUT!";
+		//$app->render('hello.php');
+	}
+	else
+	{
+		echo "YOU AREN'T LOGGED IN!";
+	}
 });
+
+$app->get('/test2', function() use($app)
+{
+	session_start();
+	if(isset($_SESSION['userName']))
+	{
+		
+		echo $_SESSION["userName"];
+		//$app->render('hello.php');
+	}
+	else
+	{
+		echo "YOU AREN'T LOGGED IN!";
+	}
+});
+/**********************************/
+
 $app->get('/login', function() use($app)
 {
 	$app->render('figure1.html');
@@ -149,20 +210,16 @@ $app->get('/jobdetailscreen', function() use($app)
 {
 	$app->render('figure16.html');
 });
-$app->post('/login_check', function() use ($app) {
-    
-});
+
 /*********************************************************/
 
 
-/** WHERE GET and POST requests are handled **/
+/** Handle AJAX requests for GET and POST **/
 // Create report #1
 $app->get('/seeker_summary', function () use($app) {
 	$myQuery = "CALL getSeekerSummary()";
 	echo queryTheDB($myQuery);    
 });
-
-
 
 //Create report #2
 $app->get('/seeker_jobs/:seekerLName', function ($seekerLName) use($app) {
@@ -215,10 +272,35 @@ $app->get('/payment_report/:startDate/:endDate', function ($startDate, $endDate)
 	echo queryTheDB($myQuery);    
 });
 
-/**
- * Step 4: Run the Slim application
- *
- * This method should be called last. This executes the Slim application
- * and returns the HTTP response to the HTTP client.
- */
+//Verifying Log in credentials
+$app->post('/login', function() use ($app)
+{
+    //Grab the json in the request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	//Parse the json for the values 
+	$userName = $json["UName"];
+	$password = $json["UPasswd"];
+	//Sanitize and see if credentials check out
+	$userName = putInSingleQuotes($userName);
+	$password = putInSingleQuotes($password);
+	$isValid = verifyUserCredentials($userName, $password);
+	
+	if($isValid == TRUE)
+	{
+		//Create session server side and give client cookie with pointer to session
+		session_start();
+		$_SESSION["userName"] = $userName;
+		//Redirect to page after login
+		$app->render('test.php');
+	}
+	else 
+	{
+		//Redirect to page notifying of wrong password.
+		$app->render('hello.php');
+	}
+});
+
+
 $app->run();
