@@ -24,10 +24,13 @@
       "info" : false,
       "searching": false,
       "ajax" : {
+          // api call goes here
          "url" : "seeker_jobs/" + u,
          "dataSrc" : "",
       },
       columns: [
+          // If the returned data from the api changes use the fields it returns
+          // and match the headings and number or the <th> tags in the html
             { data: "JobTitle" },
             { data: "JListDate" },
           { data: "JobID" },
@@ -40,18 +43,23 @@
         $("#deleteselected").click(function(){
             var t = $("#example").DataTable();
             var ids = [];
+            // Collect the selected rows
 				var sr = t.rows('.selected').data();
 				sr.each(function(row) {
 					ids[ids.length] = row.JobID;
 				});
+            // build up the agreeded upon structure for the POST api
 				var data = {
 					"username" : u,	
 					"jobids" : ids
 				};
             $.ajax({
+                // The api name
                     url: "delete_jobs", // login.php
                     type: "POST",
-                    data: data,
+                    dataType: "json",
+                // Always stringify the data
+                    data: JSON.stringify(data),
                     success:
                         function(result){
                             alert(result);
@@ -102,6 +110,7 @@
             <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
+                <!-- This is the headings and number of fields you are displaying from the datatable -->
                 <th>Company</th>
                 <th>List Date</th>
                 <th>Job ID</th>
