@@ -138,7 +138,7 @@ CREATE PROCEDURE checkIfUserNameExists (IN userName VARCHAR(45))
 BEGIN
 SELECT UName
 FROM user A
-WHERE A.UName=uName;
+WHERE A.UName=userName;
 END //
 
 #insert a new user entry
