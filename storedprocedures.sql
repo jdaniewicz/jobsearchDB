@@ -245,7 +245,7 @@ END //
 
 #get unfilled jobs by location that the user has not applied for
 DELIMITER //
-CREATE PROCEDURE getJobsBySalaryName (IN location INT, uName VARCHAR(45))
+CREATE PROCEDURE getJobsByLocationName (IN location INT, uName VARCHAR(45))
 BEGIN
 SELECT A.JobTitle, A.JobID
 FROM job A
@@ -412,13 +412,7 @@ FROM skill A, skillset B, resume C
 WHERE A.SSkillID=B.SSkillID AND B.ResumeID=C.ResumeID AND C.UName=uName;
 END //
 
-#add skill to a resume
-DELIMITER //
-CREATE PROCEDURE addSkill (IN skill INT, resume INT)
-BEGIN
-INSERT INTO skillset (ResumeID, SSkillID)
-VALUES (skill, resume);
-END //
+                                                                                                                                  
 
 #remove a skill from a resume
 DELIMITER //
