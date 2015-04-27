@@ -55,8 +55,17 @@
                     dataType: 'json',
                     success:
                         function(result){
+                            if (!result.isUserNameUnique)
+                            {
+                                alert("Username is not unique");
+                                return;
+                            }
+                            if (!result.isEmailUnique) {
+                                alert("Email is not unique");
+                                return;
+                            }
                             //alert(result.name);
-                            localStorage.setItem("user", ln);
+                            localStorage.setItem("user", u);
                             var url = "main";
                             $(location).attr('href',url);
                             //$("#login").hide();
@@ -85,7 +94,7 @@
         <p>
             Please enter your registration information. All fields are required.
             
-            <form>
+            <form class="form-horizontal">
                 <p> 
                 <div class="control-group"><label>Username:</label> <input type="text" id="username" value=""> <br></div>
                 <div class="control-group"><label>Password: </label> <input type="text" id="password" value=""> <br></div>
