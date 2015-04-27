@@ -25,6 +25,11 @@
                 var f = $("#fax").val();
                 var ce = $("#cell").val();
                 var em = $("#web").val();
+                
+                if (u == "" || p == "") {
+                    alert("You must supply a username and password");
+                    return;
+                }
                 if (p != cp) {
                     alert("Passwords must match");
                     return;
