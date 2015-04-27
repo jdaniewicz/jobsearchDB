@@ -16,18 +16,20 @@
                 var u = $("#username").val();
                 var p = $("#password").val();
                 var data = {
-                    "username" : u,
-                    "password" : p
+                    "UName" : u,
+                    "UPasswd" : p
                 };
+
                 if (u == "" || p == ""){
                     alert("Username and Password are invalid");
                     return;
                 }
                  
                 $.ajax({
-                    url: "login_check", // login.php
+                    url: "login", // login.php
                     type: "POST",
-                    data: data,
+                    data: JSON.stringify(data),
+                    dataType: "json",
                     success:
                         function(result){
                             //alert(result.name);
@@ -39,7 +41,7 @@
                         },
                     error: 
                         function(result){
-                           alert(result);    
+                           alert("Error" + result);    
                         }
                         
                 });
