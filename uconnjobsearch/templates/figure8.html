@@ -15,30 +15,43 @@
     <script src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js">
     </script>
         <script>
+            
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+            
+            
         $(document).ready(function() {
             
-         var u = localStorage.getItem("user");
+        var u = localStorage.getItem("user");
+            
+        // Parse out the get parameters from search
+        var location = getParameterByName('location');
+            
         $("#example").DataTable({
-      "paging" : false,
-      "ordering" : false,
-      "info" : false,
-      "searching": false,
-      "ajax" : {
-          // api call goes here
-         "url" : "seeker_jobs/" + u,
-         "dataSrc" : "",
-      },
-      columns: [
-          // If the returned data from the api changes use the fields it returns
-          // and match the headings and number or the <th> tags in the html
-            { data: "JobTitle" },
-            { data: "JListDate" },
-          { data: "JobID" },
-      ]
-   });
-            	$('#example tbody').on( 'click', 'tr', function () {
-        			$(this).toggleClass('selected');
-    			} );
+            "paging" : false,
+            "ordering" : false,
+            "info" : false,
+            "searching": false,
+            "ajax" : {
+                // api call goes here
+                "url" : "seeker_jobs/" + u,
+                "dataSrc" : "",
+            },
+            columns: [
+                // If the returned data from the api changes use the fields it returns
+                // and match the headings and number or the <th> tags in the html
+                { data: "JobTitle" },
+                { data: "JListDate" },
+                { data: "JobID" },
+            ]
+        });
+        $('#example tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+        });
 
         $("#deleteselected").click(function(){
             var t = $("#example").DataTable();

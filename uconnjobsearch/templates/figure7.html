@@ -14,36 +14,42 @@
         $(document).ready(function() {
            
             $("#submit7").click(function(){
-                var u = $("#username").val();
-                var p = $("#password").val();
-                var data = {
-                    "username" : u,
-                    "password" : p
-                };
-                if (u == "" || p == ""){
-                    alert("Username and Password are invalid");
+                var j = $("#jobtitle").val();
+                var c = $("#companyname").val();
+                var s = $("#salary").val();
+                var l = $("#location").val();
+                if (j == "" && c == "" && s == "" && l == "") {
+                    alert("You must enter some criteria");
                     return;
                 }
-                 
-                $.ajax({
-                    url: "login_check", // login.php
-                    type: "POST",
-                    data: data,
-                    success:
-                        function(result){
-                            //alert(result.name);
-                            localStorage.setItem("user", u);
-                            var url = "main";//http://127.0.0.1:8080/figure6.html";
-                            $(location).attr('href',url);
-                            //$("#login").hide();
-                            //$("#nextpage").show();
-                        },
-                    error: 
-                        function(result){
-                           alert(result);    
-                        }
-                        
-                });
+                var url = "";
+                if (j != "") {
+                    if (url != "") {
+                        url = url + "&";
+                    }
+                    url += "jobtitle=" + j;
+                }
+                if (c != "") {
+                    if (url != "") {
+                        url = url + "&";
+                    }
+                    url += "companyname=" + c;
+                }
+                if (s != "") {
+                    if (url != "") {
+                        url = url + "&";
+                    }
+                    url += "salary=" + s;
+                }
+                if (l != "") {
+                    if (url != "") {
+                        url = url + "&";
+                    }
+                    url += "location=" + l;
+                }
+                url = "main" + "?" + url;
+                $(location).attr('href',url);
+                
             });
             
             $("#cancel7").click(function(){
