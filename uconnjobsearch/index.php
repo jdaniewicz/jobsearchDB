@@ -42,7 +42,53 @@ function connectToDB()
     $conn = new mysqli($dbServerName, $dbUser, $dbPassword, $dbName);
 	return $conn;
 }
- 
+
+function verifyResultsExist($sql)
+{
+	$isExist = FALSE;
+	$conn = connectToDB();
+    // Check connection
+    if ($conn->connect_error)
+	{
+    	die("Connection failed: " . $conn->connect_error);
+    }
+	else
+	{
+	    $result = $conn->query($sql);
+		if ($result->num_rows == 1)
+		{
+		    $isExist = TRUE;
+		}
+		$conn->close();
+		return $isExist;
+    }
+	
+}
+
+function insertDeleteUpdateDB($sql)
+{
+	$conn = connectToDB();
+	$isSuccess = FALSE;
+	
+	if ($conn->connect_error)
+	{
+    	die("Connection failed: " . $conn->connect_error);
+    }
+	else
+	{
+	    $result = $conn->query($sql);
+		if ($result && mysqli_affected_rows($conn) == 1)
+		{
+		    $isSuccess = TRUE;
+		}
+		else
+		{
+			die("Database Query fail:" .mysqli_error($conn));
+		}
+		$conn->close();
+    }
+    return $isSuccess;
+} 
  
 function verifyUserCredentials($userName, $password)
 {
@@ -319,6 +365,69 @@ $app->post('/login', function() use ($app)
 	echo json_encode($responseJSON);
 });
 
+$app->post('/newuser', function() use($app)
+{
+	//Grab the json in the request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	//Parse the json for the values 
+	$userName = $json["username"];
+	$password = $json["password"];
+	//$confirmPassword = $json["confirmpassword"];
+	$firstname = $json["firstname"];
+	$lastname = $json["lastname"];
+	$address1 = $json["address1"];
+	$address2 = $json["address2"];
+	$city = $json["city"];
+	//$state = $json["state"];
+	$zip = $json["zip"];
+	$email = $json["email"];
+	$phone = $json["phone"]; 
+	$fax = $json["fax"];
+	$cell = $json["cell"];
+	$web = $json["web"];
+		/*DUMMY VARS To be actually read later */
+		//$address2 = "Bungalow 4";
+		//$phone = "860-555-1234"; 
+		//$fax = "860-555-1234";
+		//$cell = "860-555-1234";
+		//$web = "herpderp.com";
+		$state = 1; //Can be deleted once stored procedure expects a string abbr instead.
+	
+	//Sanitize inputs
+	$userName = putInSingleQuotes($userName);
+	$password = putInSingleQuotes($password);
+	$firstname = putInSingleQuotes($firstname);
+	$lastname = putInSingleQuotes($lastname);
+	$address1 = putInSingleQuotes($address1);
+	$address2 = putInSingleQuotes($address2);
+	$city = putInSingleQuotes($city);
+	//$state = putInSingleQuotes($state);
+	$zip = putInSingleQuotes($zip);
+	$email = putInSingleQuotes($email);
+	$phone = putInSingleQuotes($phone);
+	$fax = putInSingleQuotes($fax);
+	$cell = putInSingleQuotes($cell);
+	$web = putInSingleQuotes($web);
+	
+	//Result flags
+	$uniqueUserName = !verifyResultsExist("CALL checkIfUserNameExists( ".$userName. " )");
+	$uniqueEmail = !verifyResultsExist("CALL checkIfEmailExists( ".$email. " )");
+	
+	
+	if($uniqueUserName && $uniqueEmail)
+	{
+		$sql = "CALL insertUserEntry( ". $userName ." , ". $password ." , ". $firstname ." , ";
+		$sql .= $lastname ." , ".$address1 ." , ".$address2 ." , ".$city ." , ";
+		$sql .= $state ." , ".$zip ." , ".$email ." , ".$phone ." , ".$fax ." , ";
+		$sql .= $cell ." , ".$web ." )";
+		$isSuccess = insertDeleteUpdateDB($sql);
+	}
+	
+	echo json_encode(array("isUserNameUnique" => $uniqueUserName, "isEmailUnique" => $uniqueEmail ));
+	
+});
 
 
 
