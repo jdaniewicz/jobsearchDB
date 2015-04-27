@@ -32,6 +32,10 @@
                     dataType: "json",
                     success:
                         function(result){
+									if (result.status != "success") {
+										alert("Invalid login");
+										return;
+									}
                             //alert(result.name);
                             localStorage.setItem("user", u);
                             var url = "main";//http://127.0.0.1:8080/figure6.html";
