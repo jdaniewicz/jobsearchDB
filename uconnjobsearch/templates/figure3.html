@@ -15,27 +15,44 @@
                 var cp = $("#confirmpassword").val();
                 var fn = $("#firstname").val();
                 var ln = $("#lastname").val();
-                var a = $("#address").val();
+                var a = $("#address1").val();
+                var a2 = $("#address2").val();
                 var c = $("#city").val();
                 var s = $("#state").val();
                 var z = $("#zip").val();
                 var e = $("#email").val();
+                var ph = $("#phone").val();
+                var f = $("#fax").val();
+                var ce = $("#cell").val();
+                var em = $("#web").val();
+                if (p != cp) {
+                    alert("Passwords must match");
+                    return;
+                }
                 var data = {
                     "username" : u,
                     "password" : p,
-                    "confirmpassword" : cp,
+                    //"confirmpassword" : cp,
                     "firstname" : fn,
                     "lastname" : ln,
-                    "address" : a,
+                    "address1" : a,
+                    "address2" : a2,
                     "city" : c,
                     "state" : s,
                     "zip" : z,
-                    "email" : e                    
+                    "email" : e,
+                    "phone" : ph,
+                    "fax" : f,
+                    "cell" : ce,
+                    "web" : em,
+                    
                 };
+   
                 $.ajax({
-                    url: "register.php",
+                    url: "newuser",
                     type: "POST",
-                    data: data,
+                    data: JSON.stringify(data),
+                    dataType: 'json',
                     success:
                         function(result){
                             //alert(result.name);
@@ -47,7 +64,7 @@
                         },
                     error: 
                         function(result){
-                           alert(result);    
+                           alert("Error" + result);    
                         }
                         
                 });
@@ -72,14 +89,19 @@
                 <p> 
                 <div class="control-group"><label>Username:</label> <input type="text" id="username" value=""> <br></div>
                 <div class="control-group"><label>Password: </label> <input type="text" id="password" value=""> <br></div>
-                <div class="control-group"><label>Confirm Password:</label> <input type="text" id="confirmbutton" value=""> <br></div>
+                <div class="control-group"><label>Confirm Password:</label> <input type="text" id="confirmpassword" value=""> <br></div>
                 <div class="control-group"><label>First Name: </label><input type="text" id="firstname" value=""> <br></div>
                 <div class="control-group"><label>Last Name:</label> <input type="text" id="lastname" value=""> <br></div>
-                <div class="control-group"><label>Address:</label> <input type="text" id="address" value=""> <br></div>
+                <div class="control-group"><label>Address 1:</label> <input type="text" id="address1" value=""> <br></div>
+                <div class="control-group"><label>Address 2:</label> <input type="text" id="address1" value=""> <br></div>
                 <div class="control-group"><label>City: </label><input type="text" id="city" value=""> <br></div>
                 <div class="control-group"><label>State:</label> <input type="text" id="state" value=""> <br></div>
                 <div class="control-group"><label>ZIP:</label> <input type="text" id="zip" value=""> <br></div>
                 <div class="control-group"><label>E-Mail:</label> <input type="text" id="email" value=""> <br></div>
+                <div class="control-group"><label>Phone:</label> <input type="text" id="phone" value=""> <br></div>
+                <div class="control-group"><label>Fax:</label> <input type="text" id="fax" value=""> <br></div>
+                <div class="control-group"><label>Cell::</label> <input type="text" id="cell" value=""> <br></div>
+                <div class="control-group"><label>Web:</label> <input type="text" id="web" value=""> <br></div>
                 
                 </p>
             </form>
