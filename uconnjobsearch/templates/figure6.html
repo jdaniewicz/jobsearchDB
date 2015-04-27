@@ -58,22 +58,26 @@
         
             $("#search").click(function(){
             	var url = "searchscreen"; //"http://127.0.0.1:8080/figure3.html";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+                window.location.href = url;
             });
             
         		$("#manageapplications").click(function(){
             	var url = "manageapplications"; //"http://127.0.0.1:8080/figure3.html";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+                    window.location.href = url;
             });
             
             $("#updateresume").click(function(){
                 var url = "resumeupdate"; //"http://127.0.0.1:8080/figure3.html";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+                window.location.href = url;
             });
             
          $("#updateprofile").click(function(){
                 var url = "updateprofile"; //"http://127.0.0.1:8080/figure3.html";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+             window.location.href = url;
             });
             
         $('#example tbody').on( 'click', 'tr', function () {
@@ -134,7 +138,8 @@
         	});
             localStorage.removeItem("user");
             var url = "login"; //"http://127.0.0.1:8080/figure3.html";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+            window.location.href = url;
             });
             
         });    

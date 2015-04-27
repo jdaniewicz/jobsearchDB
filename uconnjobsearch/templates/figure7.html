@@ -27,25 +27,25 @@
                     if (url != "") {
                         url = url + "&";
                     }
-                    url += "jobtitle=" + j;
+                    url += "jobtitle=" + escape(j);
                 }
                 if (c != "") {
                     if (url != "") {
                         url = url + "&";
                     }
-                    url += "companyname=" + c;
+                    url += "companyname=" + escape(c);
                 }
                 if (s != "") {
                     if (url != "") {
                         url = url + "&";
                     }
-                    url += "salary=" + s;
+                    url += "salary=" + escape(s);
                 }
                 if (l != "") {
                     if (url != "") {
                         url = url + "&";
                     }
-                    url += "location=" + l;
+                    url += "location=" + escape(l);
                 }
                 url = "main" + "?" + url;
                 $(location).attr('href',url);
