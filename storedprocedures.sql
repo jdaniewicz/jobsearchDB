@@ -269,14 +269,6 @@ WHERE B.UName=uName AND A.JobID=B.JobID
 );
 END //
 
-#get list of job titles
-DELIMITER //
-CREATE PROCEDURE getJobTitles ()
-BEGIN
-SELECT DISTINCT JobTitle
-FROM job;
-END //
-
 #get list of state abbreviations
 DELIMITER //
 CREATE PROCEDURE getStates ()
