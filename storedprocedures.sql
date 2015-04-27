@@ -122,3 +122,12 @@ SELECT UFName, ULName, UStreet1, UCity, Zipcode, UEmail
 FROM user A, resume B, skillset C, skill D
 WHERE D.SSkillName=skillName AND D.SSkillID=C.SSkillID AND C.ResumeID=B.ResumeID AND B.UName=A.UName;
 END //
+
+#Return a user provided Username exists and the provided password matches 
+DELIMITER //
+CREATE PROCEDURE verifyUserNameAndPassword (IN userName VARCHAR(15), pword VARCHAR(15))
+BEGIN
+SELECT *
+FROM USER
+WHERE UPasswd= pword AND UName= userName;
+END //
