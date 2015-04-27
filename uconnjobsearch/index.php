@@ -287,19 +287,23 @@ $app->post('/login', function() use ($app)
 	$password = putInSingleQuotes($password);
 	$isValid = verifyUserCredentials($userName, $password);
 	
+	//The response indicating whether login was successful or not
+	$responseJSON = NULL;
+	
 	if($isValid == TRUE)
 	{
 		//Create session server side and give client cookie with pointer to session
 		session_start();
 		$_SESSION["userName"] = $userName;
 		//Redirect to page after login
-		$app->render('test.php');
+		$responseJSON = array('status' => "success");
 	}
 	else 
 	{
-		//Redirect to page notifying of wrong password.
-		$app->render('hello.php');
+		$responseJSON = array('status' => "failure");
 	}
+	//Encode array as JSON and send back to client
+	echo json_encode($responseJSON);
 });
 
 
