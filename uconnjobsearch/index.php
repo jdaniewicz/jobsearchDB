@@ -29,12 +29,8 @@ $app = new \Slim\Slim();
  * argument for `Slim::get`, `Slim::post`, `Slim::put`, `Slim::patch`, and `Slim::delete`
  * is an anonymous function.
  */
-
-function verifyUserCredentials($userName, $password)
+function connectToDB()
 {
-	$isInfoCorrect = FALSE;
-	$sql = "CALL verifyUserNameAndPassword( ". $userName .", ". $password .")";
-	
 	$dbServerName = "localhost";
     $dbUser = "root";
     $dbPassword = "";
@@ -44,7 +40,19 @@ function verifyUserCredentials($userName, $password)
     
 	// Create connection
     $conn = new mysqli($dbServerName, $dbUser, $dbPassword, $dbName);
-
+	return $conn;
+}
+ 
+ 
+function verifyUserCredentials($userName, $password)
+{
+	// Create connection
+    $conn = connectToDB();
+	
+	$isInfoCorrect = FALSE;
+	$sql = "CALL verifyUserNameAndPassword( ". $userName .", ". $password .")";
+	
+	$result = NULL;
     // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -64,16 +72,11 @@ function verifyUserCredentials($userName, $password)
  // Opens and closes a connection to the DB returning its response to provided query
 function queryTheDB($sql)
 {
-	$dbServerName = "localhost";
-    $dbUser = "root";
-    $dbPassword = "";
-    $dbName = "uconnjobsearch";
+	// Create connection
+    $conn = connectToDB();
 	
 	$result = NULL;
 	$createdJSON = NULL;
-    
-	// Create connection
-    $conn = new mysqli($dbServerName, $dbUser, $dbPassword, $dbName);
 
     // Check connection
     if ($conn->connect_error) {
@@ -114,7 +117,7 @@ function putInSingleQuotes($parameter)
 
 
 /** MINI TEST STATIONS FOR JEFF **/
-$app->get('/logout/', function() use($app)
+$app->get('/logout', function() use($app)
 {
 	session_start();
 	if(isset($_SESSION['userName']))
@@ -158,7 +161,18 @@ $app->get('/newuser', function() use($app)
 
 $app->get('/main', function() use($app)
 {
-	$app->render('figure6.html');
+	session_start();
+	if(isset($_SESSION['userName']))
+	{
+		
+		//echo $_SESSION["userName"];
+		$app->render('figure6.html');
+	}
+	else
+	{
+		$app->render('loggedout.php');
+	}
+	
 });
 
 $app->get('/searchscreen', function() use($app)
@@ -295,7 +309,6 @@ $app->post('/login', function() use ($app)
 		//Create session server side and give client cookie with pointer to session
 		session_start();
 		$_SESSION["userName"] = $userName;
-		//Redirect to page after login
 		$responseJSON = array('status' => "success");
 	}
 	else 
@@ -305,6 +318,8 @@ $app->post('/login', function() use ($app)
 	//Encode array as JSON and send back to client
 	echo json_encode($responseJSON);
 });
+
+
 
 
 $app->run();
