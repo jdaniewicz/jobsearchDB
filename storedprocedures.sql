@@ -143,10 +143,17 @@ END //
 
 #insert a new user entry
 DELIMITER //
-CREATE PROCEDURE insertUserEntry (IN uName VARCHAR(45), passwd VARCHAR(45), fName VARCHAR(45), lName VARCHAR(45), address VARCHAR(45), address2 VARCHAR(45), city VARCHAR(45), state INT, zip VARCHAR(45), email VARCHAR(45), phone VARCHAR(45), fax VARCHAR(45), cell VARCHAR(45), web VARCHAR(45))
+CREATE PROCEDURE insertUserEntry (IN uName VARCHAR(45), passwd VARCHAR(45), fName VARCHAR(45), lName VARCHAR(45), address VARCHAR(45), address2 VARCHAR(45), city VARCHAR(45), state VARCHAR(45), zip VARCHAR(45), email VARCHAR(45), phone VARCHAR(45), fax VARCHAR(45), cell VARCHAR(45), web VARCHAR(45))
 BEGIN
 INSERT INTO user (UName, UPasswd, UFName, ULName, UStreet1, UStreet2, UCity, StateID, Zipcode, UEmail, UPhone, UFax, UCell, UHomePage, UStatusID) VALUES
-(uName, passwd, fName, lName, address, address2, city, state, zip, email, phone, fax, cell, web, 0);
+(uName, passwd, fName, lName, address, address2, city, 1, zip, email, phone, fax, cell, web, 0);
+UPDATE user
+SET StateID=(
+SELECT StateID
+FROM state A
+WHERE A.Abbr=state
+)
+WHERE UName=uName;
 END //
 
 #check if an email exists
@@ -403,8 +410,6 @@ SELECT SSkillName
 FROM skill A, skillset B, resume C
 WHERE A.SSkillID=B.SSkillID AND B.ResumeID=C.ResumeID AND C.UName=uName;
 END //
-
-                                                                                                                                  
 
 #remove a skill from a resume
 DELIMITER //
