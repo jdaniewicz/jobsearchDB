@@ -3,11 +3,134 @@
         <title>Resume: Welcome to UConn's Job Search Database</title>
     </head>
     
-    <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+           
+            $("#submit9").click(function(){
+                var s = $("#school").val();
+                var d = $("#degree").val();
+                var da = $("#degreeArea").val();
+                var g = $("#gpa").val();
+                var sd = $("#startDate").val();
+                var gd = $("#gradDate").val();
+                var user = localStorage.getItem("user");
+                var data = {
+                    "school" : s,
+                    "degree" : d,
+                    "degreeArea" : da,
+                    "gpa" : g,
+                    "startDate" : sd,
+                    "gradDate" : gd
+                    //"user" : user
+                };
+                 
+                $.ajax({
+                    url: "educationentrysceen", // login.php
+                    type: "POST",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success:
+                        function(result){
+                            //alert(result.name);
+                            var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
+                            $(location).attr('href',url);
+                            //$("#login").hide();
+                            //$("#nextpage").show();
+                        },
+                    error: 
+                        function(result){
+                           //alert("ERROR" + result);  
+                             var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
+                            $(location).attr('href',url);
+                            //var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
+                            //$(location).attr('href',url);
+                        }
+                        
+                });
+            });
+            
+            $("#cancel9").click(function(){
+                var url = "main";
+                $(location).attr('href',url);
+            });
+                
+         });
+        </script>
+    
+    <body style="margin:20px">
         <h1> Job Search Database </h1>
         
         <p>
-            John Doe, please enter the information related to your education.
+            Please enter the information related to your education:
+             <div class="row">
+                <div class="col-xs-6">
+             <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="gpa">GPA</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="gpa" value=""> 
+                    </div>
+                </div>
+                  <div class="form-group">
+                    <label class="control-label col-xs-2" for="startdate">Start Date</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="startdate" value=""> 
+                    </div>
+                    </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="graddate">Grad Date</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="graddate" value=""> 
+                    </div>
+                     </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="school">School</label> 
+                    <div class="col-xs-10">
+                  
+                    <select id=school>
+<option value="1">UConn</option>
+<option value="2">CCSU</option>
+                    </select>
+                     </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="degree">Degree</label> 
+                    <div class="col-xs-10">
+                  
+                    <select id=degree>
+<option value="1">Associates</option>
+<option value="2">Bachelors</option>
+                    </select>
+                     </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="degreeArea">State</label> 
+                    <div class="col-xs-10">
+                  
+                    <select id=degreeArea>
+<option value="1">Mathematics</option>
+<option value="2">Computer Science</option>
+                    </select>
+                     </div>
+                </div>
+                </div>
+                </form>
+            
+            
+
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button id="submit9">Submit</button>
+            <button id="cancel9">Cancel</button>
+                   </div>
+                <div class="col-xs-6"></div>
+                    </div>
         </p>
     </body>
 <html>
