@@ -51,8 +51,9 @@
                 // If the API returns diffent fields we must change this and the HTML <th>
       		    columns: [
                     { data: "JobTitle" },
+                    { data: "CName" },
                     { data: "JListDate" },
-          			{ data: "JobID" },
+          			{ data: "JobID", "visible" : false },
       			]
    			});
         
@@ -170,6 +171,7 @@
         <thead>
             <tr>
                 <!-- NEED TO MATCH THE NUMBER OF COLUMNS THAT we added above and set labels as well -->
+                <th>Job Title</th>
                 <th>Company</th>
                 <th>List Date</th>
                 <th>Job ID</th>
