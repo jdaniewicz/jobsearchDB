@@ -18,8 +18,8 @@
                 var d = $("#degree").val();
                 var da = $("#degreeArea").val();
                 var g = $("#gpa").val();
-                var sd = $("#startDate").val();
-                var gd = $("#gradDate").val();
+                var sd = $("#startdate").val();
+                var gd = $("#graddate").val();
                 var user = localStorage.getItem("user");
                 var data = {
                     "school" : s,
@@ -32,7 +32,7 @@
                 };
                  
                 $.ajax({
-                    url: "educationentrysceen", // login.php
+                    url: "educationentryscreen", // login.php
                     type: "POST",
                     dataType: "json",
                     data: JSON.stringify(data),
@@ -57,7 +57,7 @@
             });
             
             $("#cancel9").click(function(){
-                var url = "main";
+                var url = "resumeupdateeducation";
                 $(location).attr('href',url);
             });
                 
@@ -69,8 +69,8 @@
         
         <p>
             Please enter the information related to your education:
-             <div class="row">
-                <div class="col-xs-6">
+        <div class="row">
+            <div class="col-xs-6">
              <form class="form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-xs-2" for="gpa">GPA</label> 
@@ -95,8 +95,67 @@
                     <div class="col-xs-10">
                   
                     <select id=school>
-<option value="1">UConn</option>
-<option value="2">CCSU</option>
+
+<option value="1">Abraham Baldwin Agricultural College</option>
+<option value="2">Agnes Scott College</option>
+<option value="3">Albany State University</option>
+<option value="4">American Academy of Religion</option>
+<option value="5">American InterContinental University</option>
+<option value="6">Andrew College</option>
+<option value="7">Armstrong Atlantic State University</option>
+<option value="8">Art Institute of Atlanta</option>
+<option value="9">Ashworth College</option>
+<option value="10">Atlanta College of Art</option>
+<option value="11">Atlanta Technical Institute</option>
+<option value="12">Augusta State University</option>
+<option value="13">Berry College</option>
+<option value="14">Brenau University</option>
+<option value="15">Brewton-Parker College</option>
+<option value="16">Christian Life School of Theology</option>
+<option value="17">Clark Atlanta University</option>
+<option value="18">Clayton College and State University</option>
+<option value="19">Coastal Georgia Community College</option>
+<option value="20">Columbia Theological Seminary</option>
+<option value="21">Columbus State University</option>
+<option value="22">Columbus Technical College</option>
+<option value="23">Dalton State College</option>
+<option value="24">Darton College</option>
+<option value="25">DeVry University</option>
+<option value="26">East Georgia College</option>
+<option value="27">Emmanuel College</option>
+<option value="28">Emory University</option>
+<option value="29">Flint River Technical College</option>
+<option value="30">Floyd College</option>
+<option value="31">Fort Valley State University</option>
+<option value="32">Gainesville College</option>
+<option value="33">Georgia Baptist College of Nursing</option>
+<option value="34">Georgia College and State University</option>
+<option value="35">Georgia Institute of Technology</option>
+<option value="36">Georgia Military College</option>
+<option value="37">Georgia Perimeter College</option>
+<option value="38">Georgia Southern University</option>
+<option value="39">Georgia Southwestern State University</option>
+<option value="40">Georgia State University</option>
+<option value="41">Gordon College</option>
+<option value="42">John Marshall Law School</option>
+<option value="43">Kennesaw State University</option>
+<option value="44">LaGrange College</option>
+<option value="45">Macon State College</option>
+<option value="46">Medical College of Georgia</option>
+<option value="47">Mercer University</option>
+<option value="48">Middle Georgia College</option>
+<option value="49">Morehouse College</option>
+<option value="50">Oglethorpe University</option>
+<option value="51">Oxford College</option>
+<option value="52">Savannah College of Art and Design</option>
+<option value="53">Savannah State University</option>
+<option value="54">South Georgia Technical College</option>
+<option value="55">Spelman College</option>
+<option value="56">University of Georgia</option>
+<option value="57">Valdosta State University</option>
+<option value="58">Wesleyan College</option>
+<option value="59">University of Connecticut</option>
+
                     </select>
                      </div>
                 </div>
@@ -105,8 +164,12 @@
                     <div class="col-xs-10">
                   
                     <select id=degree>
-<option value="1">Associates</option>
-<option value="2">Bachelors</option>
+<option value="1">High School or equivalent</option>
+<option value="2">Associate Degree</option>
+<option value="3">Bachelors Degree</option>
+<option value="4">Masters Degree</option>
+<option value="5">Doctorate</option>
+
                     </select>
                      </div>
                 </div>
@@ -115,19 +178,51 @@
                     <div class="col-xs-10">
                   
                     <select id=degreeArea>
-<option value="1">Mathematics</option>
-<option value="2">Computer Science</option>
+<option value="1">Aerospace Engineering</option>
+<option value="2">Applied Physiology</option>
+<option value="3">ArchitectureBuilding Construction</option>
+<option value="4">Art</option>
+<option value="5">ArtsEconomics History</option>
+<option value="6">Biology</option>
+<option value="7">Biomedical Engineering</option>
+<option value="8">Biomolecular Engineering</option>
+<option value="9">Business</option>
+<option value="10">Chemical Engineering</option>
+<option value="11">ChemistryBiochemistry</option>
+<option value="12">City and Regional Planning</option>
+<option value="13">Civil Engineering</option>
+<option value="14">Communication</option>
+<option value="15">Computer Engineering</option>
+<option value="16">Computer Science</option>
+<option value="17">Earth and Atmospheric Sciences</option>
+<option value="18">Electrical Engineering</option>
+<option value="19">Industrial and Systems Engineering</option>
+<option value="20">Industrial Design</option>
+<option value="21">International Affairs</option>
+<option value="22">Literature</option>
+<option value="23">Materials Science and Engineering</option>
+<option value="24">Mathematics</option>
+<option value="25">Mechanical Engineering</option>
+<option value="26">Modern Languages</option>
+<option value="27">Music</option>
+<option value="28">Physics</option>
+<option value="29">Psychology</option>
+<option value="30">Public Policy</option>
+<option value="31">Textile Engineering</option>
+
                     </select>
                      </div>
                 </div>
-                </div>
-                </form>
+                  </form>
+                
+               
             
             
 
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="submit9">Submit</button>
             <button id="cancel9">Cancel</button>
+                </div>
                    </div>
                 <div class="col-xs-6"></div>
                     </div>

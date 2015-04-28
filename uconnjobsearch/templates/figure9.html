@@ -32,7 +32,8 @@
                         function(result){
                             //alert(result.name);
                             var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
-                            $(location).attr('href',url);
+                            //$(location).attr('href',url);
+                            window.location.href = url;
                             //$("#login").hide();
                             //$("#nextpage").show();
                         },
@@ -40,7 +41,8 @@
                         function(result){
                            //alert("ERROR" + result);  
                              var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
-                            $(location).attr('href',url);
+                            //$(location).attr('href',url);
+                            window.location.href = url;
                             //var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
                             //$(location).attr('href',url);
                         }
@@ -50,7 +52,8 @@
             
             $("#cancel9").click(function(){
                 var url = "main";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+                window.location.href = url;
             });
                 
          });
@@ -78,7 +81,7 @@
                 </div>
             
             
-
+                    </form>
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="submit9">Next</button>
             <button id="cancel9">Cancel</button>
