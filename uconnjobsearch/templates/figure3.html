@@ -72,9 +72,11 @@
                             //alert(result.name);
                             localStorage.setItem("user", u);
                             var url = "login";
-                            $(location).attr('href',url);
+                            //$(location).attr('href',url);
+                            window.location.href = url;
                             //$("#login").hide();
                             //$("#nextpage").show();
+                            
                         },
                     error: 
                         function(result){
@@ -85,9 +87,12 @@
             });
         
             
-            $("#cancel3").click(function(){
+            $("#cancel3").click(function(e){
                 var url = "login";
-                $(location).attr('href',url);
+                //$(location).attr('href',url);
+                 window.location.href = url;
+                e.preventDefault();
+                return false;
             });
         }); 
         </script>
@@ -98,19 +103,62 @@
         
         <p>
             Please enter your registration information. All fields are required.
+            <div class="row">
+                <div class="col-xs-6">
             
             <form class="form-horizontal">
-                <p> 
-                <div class="control-group"><label>Username:</label> <input type="text" id="username" value=""> <br></div>
-                <div class="control-group"><label>Password: </label> <input type="text" id="password" value=""> <br></div>
-                <div class="control-group"><label>Confirm Password:</label> <input type="text" id="confirmpassword" value=""> <br></div>
-                <div class="control-group"><label>First Name: </label><input type="text" id="firstname" value=""> <br></div>
-                <div class="control-group"><label>Last Name:</label> <input type="text" id="lastname" value=""> <br></div>
-                <div class="control-group"><label>Address 1:</label> <input type="text" id="address1" value=""> <br></div>
-                <div class="control-group"><label>Address 2:</label> <input type="text" id="address2" value=""> <br></div>
-                <div class="control-group"><label>City: </label><input type="text" id="city" value=""> <br></div>
-                <div class="control-group"> 
-                  <label>State: </label>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="username">Username</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="username" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="password">Password</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="password" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="confirmpassword">Confirm</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="confirmpassword" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="firstname">First Name</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="firstname" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="lastname">Last Name</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="lastname" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="address1">Address 1</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="address1" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="address2">Address 2</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="address2" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="city">City</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="city" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="state">State</label> 
+                    <div class="col-xs-10">
+                  
                     <select id=state>
 <option value="1">ALABAMA</option>
 <option value="2">ALASKA</option>
@@ -172,18 +220,49 @@
 <option value="58">WISCONSIN</option>
 <option value="59">WYOMING</option>
 </select>
-                    <br></div>
-                <div class="control-group"><label>ZIP:</label> <input type="text" id="zip" value=""> <br></div>
-                <div class="control-group"><label>E-Mail:</label> <input type="text" id="email" value=""> <br></div>
-                <div class="control-group"><label>Phone:</label> <input type="text" id="phone" value=""> <br></div>
-                <div class="control-group"><label>Fax:</label> <input type="text" id="fax" value=""> <br></div>
-                <div class="control-group"><label>Cell::</label> <input type="text" id="cell" value=""> <br></div>
-                <div class="control-group"><label>Web:</label> <input type="text" id="web" value=""> <br></div>
-                
-                </p>
-            </form>
-        <button id="submit3">Register</button>
-        <button id="cancel3">Cancel</button>
-        </p>
+                        </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="zip">Zip</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="zip" value=""> 
+                    </div>
+                </div>
+                    <div class="form-group">
+                    <label class="control-label col-xs-2" for="email">Email</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="email" value=""> 
+                    </div>
+                </div>
+                    <div class="form-group">
+                    <label class="control-label col-xs-2" for="phone">Phone</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="phone" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="fax">Fax</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="fax" value=""> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="cell">Cell</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="cell" value=""> 
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="web">Web</label> 
+                    <div class="col-xs-10">
+                    <input class="form-control" type="text" id="web" value=""> 
+                    </div>
+                </div>
+                    
+        </form>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="submit3">Register</button>
+                <button id="cancel3">Cancel</button>
+                </div>
+                <div class="col-xs-6"></div>
     </body>
 <html>
