@@ -60,23 +60,45 @@
          });
         </script>
     
-    <body>
+    <body style="margin:20px">
         <h1> Job Search Database </h1>
         
         <p>
             Please enter the search criteria
-            
-             <form>
-                <p> 
-                Job Title: <input type="text" id="jobtitle" value=""> <br>
-                Company Name:  <input type="text" id="companyname" value=""> <br>
-                Salary: <input type="text" id="salary" value=""> <br>
-                Location: <input type="text" id="location" value=""> <br>
-                </p>
+            <div class="row">
+                <div class="col-xs-6">
+             <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="jobtitle">Job Title</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="jobtitle" value=""> 
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="companyname">Company Name</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="companyname" value=""> 
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="salary">Salary</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="salry" value=""> 
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="control-label col-xs-2" for="location">Location</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="location" value=""> 
+                    </div>
+                </div>
+                
             </form>
         
-            <button id="submit7">Submit</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="submit7">Submit</button>
             <button id="cancel7">Cancel</button>
-        </p>
+                </div>
+                <div class="col-xs-6"></div>
+        
     </body>
 <html>
