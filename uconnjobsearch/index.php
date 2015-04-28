@@ -415,7 +415,7 @@ $app->post('/newuser', function() use($app)
 	$address1 = putInSingleQuotes($address1);
 	$address2 = putInSingleQuotes($address2);
 	$city = putInSingleQuotes($city);
-	$state = putInSingleQuotes($state);
+	//$state = putInSingleQuotes($state);
 	$zip = putInSingleQuotes($zip);
 	$email = putInSingleQuotes($email);
 	$phone = putInSingleQuotes($phone);
