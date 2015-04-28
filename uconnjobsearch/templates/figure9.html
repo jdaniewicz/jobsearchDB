@@ -20,13 +20,14 @@
                 var data = {
                     "objective" : o,
                     "salary" : s,
-                    "user" : user
+                    //"user" : user
                 };
                  
                 $.ajax({
-                    url: "update_resume", // login.php
+                    url: "resumeupdate", // login.php
                     type: "POST",
-                    data: data,
+                    dataType: "json",
+                    data: JSON.stringify(data),
                     success:
                         function(result){
                             //alert(result.name);
@@ -36,11 +37,12 @@
                             //$("#nextpage").show();
                         },
                     error: 
-                        
                         function(result){
-                         //  alert(result);  
-                            var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
+                           //alert("ERROR" + result);  
+                             var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
                             $(location).attr('href',url);
+                            //var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
+                            //$(location).attr('href',url);
                         }
                         
                 });
@@ -54,21 +56,35 @@
          });
         </script>
     
-    <body>
+    <body style="margin:20px">
         <h1> Job Search Database </h1>
         
         <p>
             Please update your resume
+             <div class="row">
+                <div class="col-xs-6">
+             <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-xs-2" for="objective">Objective</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="objective" value=""> 
+                    </div>
+                </div>
+                  <div class="form-group">
+                    <label class="control-label col-xs-2" for="salary">Salary</label> 
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" id="salary" value=""> 
+                    </div>
+                </div>
             
-             <form>
-                <p> 
-                Objective: <input type="textarea" id="objective" value=""> <br>
-                Desired Salary: <input type="text" id="salary" value=""> <br>
-                </p>
-            </form>
-        
+            
+
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button id="submit9">Next</button>
             <button id="cancel9">Cancel</button>
+                   </div>
+                <div class="col-xs-6"></div>
+                    </div>
         </p>
     </body>
 <html>

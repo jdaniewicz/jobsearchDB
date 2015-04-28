@@ -18,48 +18,23 @@
         $(document).ready(function() {
             var u = localStorage.getItem("user");
         $("#example").DataTable({
-      "paging" : false,
-      "ordering" : false,
-      "info" : false,
-      "searching": false,
-      /*"ajax" : {
-         "url" : "new_jobs/2001-01-01/2008-01-01",//seeker_jobs/" + u,
+      "paging" : true,
+      "ordering" : true,
+      "info" : true,
+      "searching": true,
+      "ajax" : {
+         "url" : "user_education",
          "dataSrc" : "",
-      },*/
-            "data" : [
-               
-                 [ "UConn", "BA", "math", "3.3","12/12/2001","12/12/2005","123" ],
-                [ "UConn", "BA", "math", "3.3","12/12/2001","12/12/2005","123" ],
-            ],
+      },
+          
       columns: [
-//ULName":"Bailey","UFName":"Eric","CName":"Gefion, Inc.","JobID":"28","JListDate":"2001-01-28","JobTitle":"Physical Scientists"
-           /* {
-                render: function ( data, type, row ) {
-                    if ( type === 'display' ) {
-                        if ( data == 'Y' ) {
-                           return '<input type="checkbox" checked class="editor-active">';
-                        } else {
-                           return '<input type="checkbox" class="editor-active">';
-                        }
-                    }
-                    return data;
-                },
-                className: "dt-body-center"
-            },*/
-          {  },
-            { },
-          {  },
-          {  },
-          {  },
-          { },
-          { },
-          /*  { data: "university" },
-            { data: "degree" },
-          { data: "degreearea" },
-          { data: "gpa" },
-          { data: "startdate" },
-          { data: "graddate" },
-          { data: "job_id" },*/
+          { data: "UniversityName" },
+        { data: "DegreeType" },
+          { data: "DegreeArea" },
+          { data: "EGPA" },
+          { data: "EstartDate" },
+          { data: "EGradDate" },
+          { data: "EducationID", visible: false}
       ]
    });
         $('#example tbody').on( 'click', 'tr', function () {
@@ -143,7 +118,7 @@
     </script>
             
     
-    <body>
+    <body style="margin:20px">
         <h1> Job Search Database </h1>
         
         <p>
