@@ -65,12 +65,10 @@ function verifyResultsExist($sql)
 	
 }
 
-function insertDeleteUpdateDB($sql, $method)
+function insertDeleteUpdateDB($sql)
 {
 	$conn = connectToDB();
 	$isSuccess = FALSE;
-	
-	$methodSwitch = ($method === "insert") ? TRUE : (mysqli_affected_rows($conn) == 1); 
 	
 	if ($conn->connect_error)
 	{
@@ -79,7 +77,7 @@ function insertDeleteUpdateDB($sql, $method)
 	else
 	{
 	    $result = $conn->query($sql);
-		if ($result && $methodSwitch)
+		if ($result && mysqli_affected_rows($conn) == 1)
 		{
 		    $isSuccess = TRUE;
 		}
@@ -147,21 +145,11 @@ function queryTheDB($sql)
     }
 }
 
-function replaceWithNull($parameter)
-{
-	if(!isset($parameter) || trim($parameter)==='')
-	{
-		$parameter = "NULL";
-	}
-	return $parameter;
-}
 //Cleaner way to put parameters into quotes when creating queries
 function putInSingleQuotes($parameter)
 {
 	$parameter = urldecode($parameter);
-	$parameter = replaceWithNull($parameter);
-	if ($parameter !== "NULL") { $parameter = "'". $parameter . "'"; }
-	return $parameter;
+	return "'". $parameter . "'";
 }
 
 /** MATT THIS IS WHERE YOU EDIT AND CREATE PAGE ROUTES **/
@@ -392,7 +380,7 @@ $app->post('/newuser', function() use($app)
 	$address1 = $json["address1"];
 	$address2 = $json["address2"];
 	$city = $json["city"];
-	$state = $json["state"];
+	//$state = $json["state"];
 	$zip = $json["zip"];
 	$email = $json["email"];
 	$phone = $json["phone"]; 
@@ -405,7 +393,7 @@ $app->post('/newuser', function() use($app)
 		//$fax = "860-555-1234";
 		//$cell = "860-555-1234";
 		//$web = "herpderp.com";
-		//$state = 1; //Can be deleted once stored procedure expects a string abbr instead.
+		$state = 1; //Can be deleted once stored procedure expects a string abbr instead.
 	
 	//Sanitize inputs
 	$userName = putInSingleQuotes($userName);
@@ -415,7 +403,7 @@ $app->post('/newuser', function() use($app)
 	$address1 = putInSingleQuotes($address1);
 	$address2 = putInSingleQuotes($address2);
 	$city = putInSingleQuotes($city);
-	$state = putInSingleQuotes($state);
+	//$state = putInSingleQuotes($state);
 	$zip = putInSingleQuotes($zip);
 	$email = putInSingleQuotes($email);
 	$phone = putInSingleQuotes($phone);
@@ -434,10 +422,9 @@ $app->post('/newuser', function() use($app)
 		$sql .= $lastname ." , ".$address1 ." , ".$address2 ." , ".$city ." , ";
 		$sql .= $state ." , ".$zip ." , ".$email ." , ".$phone ." , ".$fax ." , ";
 		$sql .= $cell ." , ".$web ." )";
-		$isSuccess = insertDeleteUpdateDB($sql, "insert");
+		$isSuccess = insertDeleteUpdateDB($sql);
 	}
-	$parameter = 0;
-	//echo replaceWithNull($parameter);
+	
 	echo json_encode(array("isUserNameUnique" => $uniqueUserName, "isEmailUnique" => $uniqueEmail ));
 	
 });
