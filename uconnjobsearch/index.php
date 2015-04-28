@@ -12,6 +12,34 @@ include("/routing.php");
 //Functions for sending data from client to DB
 include("/postData.php");
 
+//Checks to see if user is logged in before redirecting, if not directed to logout screen
+function redirectIfLoggedIn($pageToLoad, $app)
+{
+	session_start();
+	if(isset($_SESSION['userName']))
+	{
+		
+		//echo $_SESSION["userName"];
+		$app->render($pageToLoad);
+	}
+	else
+	{
+		$app->render('loggedout.php');
+	}
+}
+//returns userName in SESSION if it exists, else redirect to login
+function safelyGetUserName()
+{
+	session_start();
+	if(isset($_SESSION['userName']))
+	{
+		return $_SESSION['userName'];
+	}
+	else
+	{
+		$app->render('loggedout.php');
+	}
+}
 
 function connectToDB()
 {

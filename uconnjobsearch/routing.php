@@ -1,5 +1,7 @@
 <?php
 
+
+
 /** MATT THIS IS WHERE YOU EDIT AND CREATE PAGE ROUTES **/
 
 
@@ -8,6 +10,8 @@
 // if you wanted to bring up roflcopter.html page with url localhost/uconnjobsearch/something
 // you would replace '/' with '/something' and 'test.html' with 'roflcopter.html' making sure
 // roflcopter.html is actually in the templates folder.
+
+
 
 
 /** MINI TEST STATIONS FOR JEFF **/
@@ -57,18 +61,7 @@ $app->get('/newuser', function() use($app)
 
 $app->get('/main', function() use($app)
 {
-	session_start();
-	if(isset($_SESSION['userName']))
-	{
-		
-		//echo $_SESSION["userName"];
-		$app->render('figure6.html');
-	}
-	else
-	{
-		$app->render('loggedout.php');
-	}
-	
+	redirectIfLoggedIn('figure6.html', $app);
 });
 
 $app->get('/searchscreen', function() use($app)
@@ -83,7 +76,7 @@ $app->get('/manageapplications', function() use($app)
 
 $app->get('/resumeupdate', function() use($app)
 {
-	$app->render('figure9.html');
+	redirectIfLoggedIn('figure9.html', $app);
 });
 
 $app->get('/resumeupdateeducation', function() use($app)
@@ -93,7 +86,7 @@ $app->get('/resumeupdateeducation', function() use($app)
 
 $app->get('/educationentryscreen', function() use($app)
 {
-	$app->render('figure11.html');
+	redirectIfLoggedIn('figure11.html', $app);
 });
 
 $app->get('/resumeupdateexperience', function() use($app)

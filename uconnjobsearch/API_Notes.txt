@@ -1,0 +1,67 @@
+***************************************************************
+*Small summary of what the API expects and what it sends back.*
+***************************************************************
+
+Send info for Fig 9, server holds info until user decides to Save, AKA write to DB
+POST: '/resumeupdate'
+Example post:
+
+{
+  "objective": "I wanna be the very best, like no one ever was.",
+  "salary" : 55000
+}
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
+---------------------------------------------------------------------------------------
+
+Retrieve user education for Fig 10
+
+GET: '/user_education'
+Example return:
+[
+    {
+        "UniversityName": "Georgia Institute of Technology",
+        "DegreeType": "Bachelors Degree",
+        "DegreeArea": "Aerospace Engineering",
+        "EGPA": "2.85",
+        "EstartDate": "2003-08-05",
+        "EGradDate": "2007-12-16",
+        "EducationID": "1"
+    },
+    {
+        "UniversityName": "Berry College",
+        "DegreeType": "Associate Degree",
+        "DegreeArea": "Applied Physiology",
+        "EGPA": "3.92",
+        "EstartDate": "2002-12-15",
+        "EGradDate": "2007-12-20",
+        "EducationID": "2"
+    },
+    {
+        "UniversityName": "East Georgia College",
+        "DegreeType": "Masters Degree",
+        "DegreeArea": "Music",
+        "EGPA": "0",
+        "EstartDate": "2000-10-22",
+        "EGradDate": "2011-10-11",
+        "EducationID": "10"
+    }
+]
+------------------------------------------------------------------------------------
+Post a new entry to education for FIG 11
+
+POST: '/usereducationentryscreen'
+Example post:
+{
+  "school": 1,
+  "degree" : 1,
+  "degreeArea": 1,
+  "gpa" : "3.00",
+  "startDate": "2001-09-11",
+  "gradDate" : "2008-06-17"
+}
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
+--------------------------------------------------------------------------------------

@@ -111,7 +111,7 @@ $app->post('/resumeupdate', function() use($app)
 	$sql = "SELECT ResumeID FROM Resume WHERE UName = ". $userName;
 	$boolArray = array('false', 'true');
 	$resumeExists = verifyResultsExist($sql);
-	
+	echo $_SESSION["objective"];
 	
 	//If resume doesn't exist create one
 	if(!$resumeExists)
@@ -120,6 +120,35 @@ $app->post('/resumeupdate', function() use($app)
 		insertDeleteUpdateDB($sql, "insert");
 		echo "RECORD CREATED!";
 	}
+});
+/********* CREATING NEW EDUCATION ENTRY ********************************/
+$app->post('/educationentryscreen', function() use($app)
+{
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	//echo var_dump($body);
+	$json = json_decode($body, true);
+	//echo $json;
+	//Parse the json
+	$school = $json["school"];
+	$degree = $json["degree"];
+	$degreeArea = $json["degreeArea"];
+	$gpa = $json["gpa"];
+	$startDate = putInSingleQuotes($json["startDate"]);
+	$gradDate = putInSingleQuotes($json["gradDate"]);
+	//Get resumeID from userName
+	$userName = safelyGetUserName();
+	$sql = "SELECT ResumeID FROM resume Where UName = " . $userName;
+	$results = queryTheDB($sql);
+	$results = json_decode($results, true);
+	$resumeID = $results[0]["ResumeID"];
+	
+	//Insert into DB
+	$sql = "CALL addEduEntry( ". $school . " , ". $degree . " , ". $degreeArea;
+	$sql .= " , ". $gpa . " , ". $startDate . " , ". $gradDate . " , " .$resumeID ." ) ";
+	insertDeleteUpdateDB($sql, "insert"); 
+	 
 });
 
 

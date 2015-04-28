@@ -56,6 +56,11 @@ $app->get('/payment_report/:startDate/:endDate', function ($startDate, $endDate)
 	$myQuery = "CALL getPaymentReportByDateRange( ". $startDate ." , " . $endDate ." )";
 	echo queryTheDB($myQuery);    
 });
-
+//Get user education MUST BE LOGGED IN
+$app->get('/user_education', function () use($app) {
+	$userName = safelyGetUserName();
+	$myQuery = "CALL getUserEducation( " . $userName . " )";
+	echo queryTheDB($myQuery);    
+});
 
 ?>
