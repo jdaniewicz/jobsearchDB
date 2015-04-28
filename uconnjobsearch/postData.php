@@ -1,5 +1,6 @@
 <?php
-    //Verifying Log in credentials
+
+/****VERIFYING LOGIN CREDENTIALS *****/
 $app->post('/login', function() use ($app)
 {
     //Grab the json in the request
@@ -32,6 +33,7 @@ $app->post('/login', function() use ($app)
 	echo json_encode($responseJSON);
 });
 
+/****CREATING A NEW USER *****/
 $app->post('/newuser', function() use($app)
 {
 	//Grab the json in the request
@@ -87,6 +89,38 @@ $app->post('/newuser', function() use($app)
 	$parameter = 0;
 	//echo replaceWithNull($parameter);
 	echo json_encode(array("isUserNameUnique" => $uniqueUserName, "isEmailUnique" => $uniqueEmail ));
-	
 });
+
+/**** RETRIEVING AND HOLDING OBJECTIVE AND SALARY *****/
+$app->post('/resumeupdate', function() use($app)
+{
+	//Grab the json in the request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	//Parse the json for the values 
+	$objective = $json["objective"];
+	$salary = $json["salary"];
+	//Save these values in session
+	session_start();
+	$_SESSION["objective"] = $objective;
+	$_SESSION["salary"] = $salary;
+	
+	//Check if current user has a resume in the DB
+	$userName = $_SESSION["userName"];
+	$sql = "SELECT ResumeID FROM Resume WHERE UName = ". $userName;
+	$boolArray = array('false', 'true');
+	$resumeExists = verifyResultsExist($sql);
+	
+	
+	//If resume doesn't exist create one
+	if(!$resumeExists)
+	{
+		$sql = "INSERT INTO resume(UName) VALUES ( ". $userName .")";
+		insertDeleteUpdateDB($sql, "insert");
+		echo "RECORD CREATED!";
+	}
+});
+
+
 ?>

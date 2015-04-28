@@ -57,10 +57,5 @@ $app->get('/payment_report/:startDate/:endDate', function ($startDate, $endDate)
 	echo queryTheDB($myQuery);    
 });
 
-//Get user education by their userid
-$app->get('/seeker_summary', function () use($app) {
-$myQuery = "CALL getSeekerSummary()";
-echo queryTheDB($myQuery);    
-});
 
 ?>

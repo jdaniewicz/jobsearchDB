@@ -46,7 +46,6 @@ function verifyResultsExist($sql)
 		$conn->close();
 		return $isExist;
     }
-	
 }
 
 function insertDeleteUpdateDB($sql, $method)
