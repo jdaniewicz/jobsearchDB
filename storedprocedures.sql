@@ -369,6 +369,14 @@ DELETE FROM applies
 WHERE JobID=jID AND UName=username;
 END //
 
+#submit an application
+DELIMITER //
+CREATE PROCEDURE submitApplication (IN jID INT, username VARCHAR(45))
+BEGIN
+INSERT INTO applies (JobID, UName, ApplicationID, DateApplied)
+VALUES (jID, username, 0, CURDATE());
+END //
+
 #update a resumes objective and salary
 DELIMITER //
 CREATE PROCEDURE updateObjAndSal (IN id INT, obj VARCHAR(500), sal INT)
