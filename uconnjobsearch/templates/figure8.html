@@ -32,21 +32,71 @@
         var location = getParameterByName('location');
             
         $("#example").DataTable({
-            "paging" : false,
-            "ordering" : false,
-            "info" : false,
-            "searching": false,
+            "paging" : true,
+            "ordering" : true,
+            "info" : true,
+            "searching": true,
             "ajax" : {
                 // api call goes here
-                "url" : "seeker_jobs/" + u,
+                "url" : "getuserapplications",//"seeker_jobs/" + u,
                 "dataSrc" : "",
             },
+        /*    [
+    {
+        "JobTitle": "Account Manager",
+        "DateApplied": "2007-12-06",
+        "JFillStatus": "Yes",
+        "JobID": "1",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },*/
             columns: [
                 // If the returned data from the api changes use the fields it returns
                 // and match the headings and number or the <th> tags in the html
                 { data: "JobTitle" },
-                { data: "JListDate" },
-                { data: "JobID" },
+                { data: "DateApplied" },
+                { data: "JFillStatus" },
+                { data: "JobID" , visible: false},
+                { data: "MatchEducation" },
+                { data: "MatchSalary" },
+                { data: "MatchSkill" },
+                { data: "MatchExperience" },
+            ],
+            columnDefs : [
+                {
+                    render : function(d,t,r) {
+                        return (d == true) ? 
+                            '<span class="glyphicon glyphicon-ok"></span>' :
+                            '<span class="glyphicon glyphicon-remove"></span>';
+                    },
+                    targets: 4
+                },
+                {
+                    render : function(d,t,r) {
+                        return (d == true) ? 
+                            '<span class="glyphicon glyphicon-ok"></span>' :
+                            '<span class="glyphicon glyphicon-remove"></span>';
+                    },
+                    targets: 5
+                },
+                {
+                    render : function(d,t,r) {
+                        return (d == true) ? 
+                            '<span class="glyphicon glyphicon-ok"></span>' :
+                            '<span class="glyphicon glyphicon-remove"></span>';
+                    },
+                    targets: 6
+                },
+                {
+                    render : function(d,t,r) {
+                        return (d == true) ? 
+                            '<span class="glyphicon glyphicon-ok"></span>' :
+                            '<span class="glyphicon glyphicon-remove"></span>';
+                    },
+                    targets: 7
+                },
             ]
         });
         $('#example tbody').on( 'click', 'tr', function () {
@@ -104,32 +154,39 @@
             }).nodes().to$().removeClass("selected");
         });
         $("#ms").click(function(){
-            localStorage.removeItem("user");
-            var url = "main"; //"http://127.0.0.1:8080/figure3.html";
-                $(location).attr('href',url);
-            });
             
-        });    
+            var url = "main"; //"http://127.0.0.1:8080/figure3.html";
+              //  $(location).attr('href',url);
+             window.location.href = url;
+        });
+           
+    });    
         
         
     </script>
     
-    <body>
+    <body style="margin:20px">
         <h1> Job Search Database </h1>
         
         <p>
-            Welcome John Doe. You have 5 active applications
+            Welcome, here are your active applications
             
             <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <!-- This is the headings and number of fields you are displaying from the datatable -->
-                <th>Company</th>
-                <th>List Date</th>
+                <th>Job Title</th>
+                <th>Date Applied</th>
+                <th>Filled</th>
                 <th>Job ID</th>
+                <th>Education</th>
+                <th>Salary</th>
+                <th>Skill</th>
+                <th>Experience</th>
+               
             </tr>
         </thead>
-            
+        </table>
          <p>
             
             <button id=deleteselected>Delete Selected</button>
