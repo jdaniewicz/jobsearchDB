@@ -174,6 +174,70 @@ function putInSingleQuotes($parameter)
 	if ($parameter !== "NULL") { $parameter = "'". $parameter . "'"; }
 	return $parameter;
 }
+//Returns an array of bools stating whether job matches a user's given criteria
+function checkCriteriaMatchesOnApplied($jobID, $userName)
+{
+	//Connect a verify no errors occurred
+	$conn = connectToDB();
+	if ($conn->connect_error)
+	{
+    	die("Connection failed: " . $conn->connect_error);
+    }
+	else
+	{
+		$sqlSalary = "CALL getJobsForUserBySalaryApplied( ". $userName .")";
+		$sqlSkills = "CALL getJobsForUserBySkillApplied( ". $userName .")";
+		$sqlEducation = "CALL getJobsForUserByEducationApplied( ". $userName .")";
+		//$sqlExperience = "CALL getJobsForUserByExperienceApplied( ". $userName .")";
+		
+		$queries = array($sqlSalary, $sqlSkills, $sqlEducation);
+		//Execute each stored procedure creating temp tables: eduMatchApplied, salaryMatchApplied, skillMatchApplied
+		foreach($queries as $sql)
+		{
+			$result = $conn->query($sql);
+			if (!$result)
+			{
+		  	  die("Database Query fail:" .mysqli_error($conn));
+			}
+		}
+		//Match flags for each table
+		$eduMatch = FALSE;
+		$salaryMatch = FALSE;
+		$skillMatch = FALSE;
+		$expMatch = FALSE;
+		$tempTables = array("eduMatchApplied", "salaryMatchApplied", "skillMatchApplied");
+		//See if given job exists in each table, toggling flags if it does
+		foreach($tempTables as $table)
+		{
+			$sql = "SELECT * FROM ". $table . " WHERE JobID = ". $jobID;
+			$result = $conn->query($sql);
+			if ($result->num_rows == 1)
+			{
+				if($table === "eduMatchApplied") $eduMatch = TRUE;
+				if($table === "salaryMatchApplied") $salaryMatch = TRUE;
+				if($table === "skillMatchApplied") $skillMatch = TRUE;
+				//if($table === "eduMatchApplied") $eduMatch = TRUE;
+			}
+			//Drop temp table when done
+			$sql = "DROP TABLE " . $table;
+			$result = $conn->query($sql);
+			if(!$result)
+			{
+				die("Database Query fail:" .mysqli_error($conn));
+			}
+		}
+		$flagArray = array
+		(
+			"MatchEducation" => $eduMatch,
+			"MatchSalary" => $salaryMatch,
+			"MatchSkill" => $skillMatch,
+			"MatchExperience" => $expMatch
+		);
+		$conn->close();
+		return $flagArray;
+    }
+	
+}
 
 
 //Starts SLIM ****MUST BE CALLED LAST!! *****

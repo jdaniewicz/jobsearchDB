@@ -87,4 +87,48 @@ Example post:
 Returns:
 	NO JSON but AJAX will return a success or fail accordingly
 ------------------------------------------------------------------------------------------
+Get user applications with boolean flags showing what criteria the job matches from user's criteria.
+Put another way this returns the info needed for the grid in Figure 8. Note user must be logged in!
+
+GET: '/getuserapplications'
+Example return:
+
+[
+    {
+        "JobTitle": "Account Manager",
+        "DateApplied": "2007-12-06",
+        "JFillStatus": "Yes",
+        "JobID": "1",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Administrator",
+        "DateApplied": "2007-12-06",
+        "JFillStatus": "No",
+        "JobID": "3",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Physical Scientists",
+        "DateApplied": "2007-12-06",
+        "JFillStatus": "Yes",
+        "JobID": "28",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    }
+]
+
+NOTE YOU WILL GET an empty array if user hasn't applied anywhere:
+
+[]
+
+---------------------------------------------------------------------------------
 

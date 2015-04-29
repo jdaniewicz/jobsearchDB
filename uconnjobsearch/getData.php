@@ -62,5 +62,36 @@ $app->get('/user_education', function () use($app) {
 	$myQuery = "CALL getUserEducation( " . $userName . " )";
 	echo queryTheDB($myQuery);    
 });
+//Get applications made by user, MUST BE LOGGED IN
+$app->get('/getuserapplications', function () use($app) {
+	//get userName from session
+	$userName = safelyGetUserName();
+	//Get all the jobs the user applied for
+	$sql = "CALL getApplications( " . $userName . " )";
+	$json = queryTheDB($sql);
+	//decode json representation back to array
+	$json = json_decode($json, true);
+	//For each job
+	$FinalJSON = array();
+	$count = 0;
+	foreach($json as $job)
+	{
+		//Grab jobID
+		$jobID = $job["JobID"];
+		//Check if job exists in user's matches on skills, edu, salary, exp
+		$resultArray = checkCriteriaMatchesOnApplied($jobID, $userName);
+		//Merge this array with $job
+		$row = array_merge($job, $resultArray);
+		$FinalJSON[$count] = $row;
+		$count = $count + 1;
+	}
+	//Encode $json into json
+	$json = $FinalJSON;
+	$json = json_encode($json);
+	echo $json;
+	 
+	 
+	//STILL WORKING ON THIS!!!
+}); 
 
 ?>
