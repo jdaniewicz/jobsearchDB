@@ -27,7 +27,7 @@
             var u = localStorage.getItem("user");
             
             // Default the URL when we come from login
-            var url = "new_jobs/2001-01-01/2008-01-01";
+            var url = "getuserunappliedjobs";//"new_jobs/2001-01-01/2008-01-01";
             
             // Parse out the get parameters from search
             var location = getParameterByName('location');
@@ -48,13 +48,50 @@
         				"url" : url,     //seeker_jobs/" + u,
 				        "dataSrc" : "",
       		    },
+              
                 // If the API returns diffent fields we must change this and the HTML <th>
       		    columns: [
                     { data: "JobTitle" },
-                    { data: "CName" },
-                    { data: "JListDate" },
+                    { data: "MatchEducation" },
+                    { data: "MatchSalary" },
+                    { data: "MatchSkill" },
+                    { data: "MatchExperience" },
           			{ data: "JobID", "visible" : false },
-      			]
+      			],
+                columnDefs : [
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 1
+                    },
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 2
+                    },
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 3
+                    },
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 4
+                    },
+                ]
    			});
         
             $("#search").click(function(){
@@ -89,29 +126,33 @@
             var t = $("#example").DataTable();
             var ids = [];
             var sr = t.rows('.selected').data();
-
-            sr.each(function(row) {
-				ids[ids.length] = row.JobID;
-            });
-            // This data has to match what the API that applies us to jobs needs
-            var data = {
-				"username" : u,	
-				"jobids" : ids
-            };
             
+             // This data has to match what the API that applies us to jobs needs
+            var data = [ ];
+            sr.each(function(row) {
+				//ids[ids.length] = row.JobID;
+                data.push({ "jobID": row.JobID });
+            });
+             
             $.ajax({
                 // Need an API here
-                url: "add_jobs", // login.php
+                url: "applytojobs", // login.php
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: 'json',
                 success:
                     function(result){
-                        alert(result);
+                        //alert(result);
+                         var url = "main"; //"http://127.0.0.1:8080/figure3.html";
+                        //$(location).attr('href',url);
+                        window.location.href = url;
                     },
                 error: 
                     function(result){
-                        alert("Error:" + result);    
+                        //alert("Error:" + result);   
+                         var url = "main"; //"http://127.0.0.1:8080/figure3.html";
+                        //$(location).attr('href',url);
+                        window.location.href = url;
                     }  
             });
         });
@@ -170,10 +211,13 @@
         <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
+       
                 <!-- NEED TO MATCH THE NUMBER OF COLUMNS THAT we added above and set labels as well -->
                 <th>Job Title</th>
-                <th>Company</th>
-                <th>List Date</th>
+                <th>MatchEducation</th>
+                <th>MatchSalary</th>
+                <th>MatchSkill</th>
+                <th>MatchExperience</th>
                 <th>Job ID</th>
             </tr>
         </thead>
