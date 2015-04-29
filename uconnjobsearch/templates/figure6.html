@@ -89,29 +89,33 @@
             var t = $("#example").DataTable();
             var ids = [];
             var sr = t.rows('.selected').data();
-
-            sr.each(function(row) {
-				ids[ids.length] = row.JobID;
-            });
-            // This data has to match what the API that applies us to jobs needs
-            var data = {
-				"username" : u,	
-				"jobids" : ids
-            };
             
+             // This data has to match what the API that applies us to jobs needs
+            var data = [ ];
+            sr.each(function(row) {
+				//ids[ids.length] = row.JobID;
+                data.push({ "jobID": row.JobID });
+            });
+             
             $.ajax({
                 // Need an API here
-                url: "add_jobs", // login.php
+                url: "applytojobs", // login.php
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: 'json',
                 success:
                     function(result){
-                        alert(result);
+                        //alert(result);
+                         var url = "main"; //"http://127.0.0.1:8080/figure3.html";
+                        //$(location).attr('href',url);
+                        window.location.href = url;
                     },
                 error: 
                     function(result){
-                        alert("Error:" + result);    
+                        //alert("Error:" + result);   
+                         var url = "main"; //"http://127.0.0.1:8080/figure3.html";
+                        //$(location).attr('href',url);
+                        window.location.href = url;
                     }  
             });
         });
