@@ -251,9 +251,32 @@ END //
 
 #get unfilled jobs for a user that they haven't applied for based on experience
 DELIMITER //
-CREATE PROCEDURE getJobsForUserByExperience ()
+CREATE PROCEDURE getJobsForUserByExperienceNotApplied (IN uName VARCHAR(45))
 BEGIN
-#not sure how to do this
+CREATE temporary TABLE expMatchNotApplied LIKE job;
+INSERT expMatchNotApplied
+SELECT DISTINCT A.*
+FROM job A, priorjobs B
+WHERE A.JobTitle=B.PJJobTitle AND A.JobTitle NOT IN(
+SELECT JobTitle
+FROM job A, applies B
+WHERE B.UName=uName AND A.JobID=B.JobID
+);
+END //
+
+#get unfilled jobs for a user that they have applied for based on experience
+DELIMITER //
+CREATE PROCEDURE getJobsForUserByExperienceApplied (IN uName VARCHAR(45))
+BEGIN
+CREATE temporary TABLE expMatchApplied LIKE job;
+INSERT expMatchApplied
+SELECT DISTINCT A.*
+FROM job A, priorjobs B
+WHERE A.JobTitle=B.PJJobTitle AND A.JobTitle IN(
+SELECT JobTitle
+FROM job A, applies B
+WHERE B.UName=uName AND A.JobID=B.JobID
+);
 END //
 
 #get unfilled jobs by title that the user has not applied for
