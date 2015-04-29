@@ -175,6 +175,72 @@ function putInSingleQuotes($parameter)
 	return $parameter;
 }
 //Returns an array of bools stating whether job matches a user's given criteria
+function checkCriteriaMatchesOnNotApplied($jobID, $userName)
+{
+	//This is a time consuming call, set max time limit to zero for execution.
+	set_time_limit(0);
+	//Connect a verify no errors occurred
+	$conn = connectToDB();
+	if ($conn->connect_error)
+	{
+    	die("Connection failed: " . $conn->connect_error);
+    }
+	else
+	{
+		$sqlSalary = "CALL getJobsForUserBySalaryNotApplied( ". $userName .")";
+		$sqlSkills = "CALL getJobsForUserBySkillNotApplied( ". $userName .")";
+		$sqlEducation = "CALL getJobsForUserByEducationNotApplied( ". $userName .")";
+		$sqlExperience = "CALL getJobsForUserByExperienceNotApplied( ". $userName .")";
+		
+		$queries = array($sqlSalary, $sqlSkills, $sqlEducation, $sqlExperience );
+		//Execute each stored procedure creating temp tables: eduMatchApplied, salaryMatchApplied, skillMatchApplied, expMatchApplied
+		foreach($queries as $sql)
+		{
+			$result = $conn->query($sql);
+			if (!$result)
+			{
+		  	  die("Database Query fail:" .mysqli_error($conn));
+			}
+		}
+		//Match flags for each table
+		$eduMatch = FALSE;
+		$salaryMatch = FALSE;
+		$skillMatch = FALSE;
+		$expMatch = FALSE;
+		$tempTables = array("eduMatchNotApplied", "salaryMatchNotApplied", "skillMatchNotApplied", "expMatchNotApplied");
+		//See if given job exists in each table, toggling flags if it does
+		foreach($tempTables as $table)
+		{
+			$sql = "SELECT * FROM ". $table . " WHERE JobID = ". $jobID;
+			$result = $conn->query($sql);
+			if ($result->num_rows == 1)
+			{
+				if($table === "eduMatchNotApplied") $eduMatch = TRUE;
+				if($table === "salaryMatchNotApplied") $salaryMatch = TRUE;
+				if($table === "skillMatchNotApplied") $skillMatch = TRUE;
+				if($table === "expMatchNotApplied") $expMatch = TRUE;
+			}
+			//Drop temp table when done
+			$sql = "DROP TABLE " . $table;
+			$result = $conn->query($sql);
+			if(!$result)
+			{
+				die("Database Query fail:" .mysqli_error($conn));
+			}
+		}
+		$flagArray = array
+		(
+			"MatchEducation" => $eduMatch,
+			"MatchSalary" => $salaryMatch,
+			"MatchSkill" => $skillMatch,
+			"MatchExperience" => $expMatch
+		);
+		$conn->close();
+		return $flagArray;
+    }
+	
+}
+
 function checkCriteriaMatchesOnApplied($jobID, $userName)
 {
 	//Connect a verify no errors occurred

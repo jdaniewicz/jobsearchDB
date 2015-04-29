@@ -131,4 +131,266 @@ NOTE YOU WILL GET an empty array if user hasn't applied anywhere:
 []
 
 ---------------------------------------------------------------------------------
+Get jobs user hasn't applied for with boolean flags showing what criteria the job matches from user's criteria.
+Used for main screen grid generation in figure 6. 
 
+NOTE: This query takes about 30 seconds on my machine. Its pretty intense. You should probably put a loader spinner
+or something indicating that the information is loading. jQuery should have info on how to show or hide something while
+ajax is still loading.
+
+GET: '/getuserunappliedjobs'
+
+Example return:
+
+[
+    {
+        "JobTitle": "Accountant",
+        "JobID": "2",
+        "MatchEducation": true,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Application Developer",
+        "JobID": "4",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Assistant Program Director",
+        "JobID": "5",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Assitant manager",
+        "JobID": "6",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Chemical Engineer",
+        "JobID": "7",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Computer Scientist",
+        "JobID": "8",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Consultant",
+        "JobID": "9",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Customer Support",
+        "JobID": "10",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Dental Hygienists",
+        "JobID": "11",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Dentist",
+        "JobID": "12",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Dieticians",
+        "JobID": "13",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Electrical Engineer",
+        "JobID": "14",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Entry Level Manager",
+        "JobID": "15",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Entry Level Sales",
+        "JobID": "16",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Field Auditor",
+        "JobID": "17",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Healthcare Administrator",
+        "JobID": "18",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Industrial Engineer",
+        "JobID": "19",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Manager",
+        "JobID": "20",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Marketing Research Analysis",
+        "JobID": "21",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Mechanical Engineer",
+        "JobID": "22",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Physician Assistant",
+        "JobID": "31",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Program Director",
+        "JobID": "32",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Sales and Marketing Representatives",
+        "JobID": "33",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Sales Executive",
+        "JobID": "34",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Scientist",
+        "JobID": "35",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Social Worker",
+        "JobID": "36",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Speech Therapist",
+        "JobID": "37",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Teacher",
+        "JobID": "38",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Textile Engineer",
+        "JobID": "39",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "Therapist",
+        "JobID": "40",
+        "MatchEducation": false,
+        "MatchSalary": true,
+        "MatchSkill": false,
+        "MatchExperience": false
+    },
+    {
+        "JobTitle": "aa",
+        "JobID": "999",
+        "MatchEducation": false,
+        "MatchSalary": false,
+        "MatchSkill": false,
+        "MatchExperience": false
+    }
+]
+
+---------------------------------------------------------------------------
