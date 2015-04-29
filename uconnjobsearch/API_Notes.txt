@@ -65,3 +65,26 @@ Example post:
 Returns:
 	NO JSON but AJAX will return a success or fail accordingly
 --------------------------------------------------------------------------------------
+Apply current user to jobs given list of JobIDs (an array of objects with only the "jobID" attribute)
+NOTE: This expects jobIDs the current user hasn't previously applied to. Theres nothing in place to
+	recover from trying to add a duplicate entry! Let me know if this could possibly happen!
+
+POST: '/applytojobs'
+Example post:
+
+[
+  	{
+      "jobID": 1
+	},
+  	{
+      "jobID": 2
+	},
+  	{
+      "jobID": 3
+	}
+]
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
+------------------------------------------------------------------------------------------
+

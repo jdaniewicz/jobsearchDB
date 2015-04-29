@@ -151,5 +151,24 @@ $app->post('/educationentryscreen', function() use($app)
 	 
 });
 
+/**************** APPLY CURRENT USER TO JOB ******************************/
+$app->post('/applytojobs', function () use($app) {
+	//Get username from current session cookies
+	$userName = safelyGetUserName();
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	foreach($json as $job)
+	{
+		$jobID = $job["jobID"];
+		$sql = "INSERT INTO applies(JobID, UName, ApplicationID, DateApplied)
+			VALUES ( ".$jobID." , " . $userName ." , 47, CURDATE())";
+		insertDeleteUpdate($sql, "insert");
+	}
+	  
+});
+
+
 
 ?>
