@@ -105,27 +105,23 @@
 
         $("#deleteselected").click(function(){
             var t = $("#example").DataTable();
-            var ids = [];
+            var data = [];
             // Collect the selected rows
 				var sr = t.rows('.selected').data();
 				sr.each(function(row) {
-					ids[ids.length] = row.JobID;
+                    data.push({ "jobID" : row.JobID});
 				});
-            // build up the agreeded upon structure for the POST api
-				var data = {
-					"username" : u,	
-					"jobids" : ids
-				};
             $.ajax({
                 // The api name
-                    url: "delete_jobs", // login.php
+                    url: "deleteapplication", // login.php
                     type: "POST",
                     dataType: "json",
                 // Always stringify the data
                     data: JSON.stringify(data),
                     success:
                         function(result){
-                            alert(result);
+                             window.location.href = "manageapplications";
+                           // alert(result);
                            // var url = "main";//http://127.0.0.1:8080/figure6.html";
                             //$(location).attr('href',url);
                             //$("#login").hide();
@@ -133,7 +129,8 @@
                         },
                     error: 
                         function(result){
-                           alert(result);    
+                           //alert(result);  
+                            window.location.href = "manageapplications";
                         }
                         
                 });
