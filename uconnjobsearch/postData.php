@@ -169,6 +169,22 @@ $app->post('/applytojobs', function () use($app) {
 	}
 	  
 });
+/**************** Delete current user's application(s) ******************************/
+$app->post('/deleteapplication', function () use($app) {
+	//Get username from current session cookies
+	$userName = safelyGetUserName();
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	foreach($json as $application)
+	{
+		$jobID = $application["jobID"];
+		$sql = "CALL deleteApplication( ". $jobID ." , " . $userName . " )";
+		insertDeleteUpdateDB($sql, "delete");
+	}
+	echo "success!";
+});
 
 
 

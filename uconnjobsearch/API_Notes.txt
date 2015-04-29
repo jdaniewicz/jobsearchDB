@@ -394,3 +394,25 @@ Example return:
 ]
 
 ---------------------------------------------------------------------------
+Deletes applications for a user given the jobIDs for them
+
+POST: '/deleteapplication'
+
+EXAMPLE post:
+
+[
+  	{
+      "jobID": 6
+	},
+  	{
+      "jobID": 10
+	},
+  	{
+      "jobID": 28
+	}
+]
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
+
+---------------------------------------------------------------------------------

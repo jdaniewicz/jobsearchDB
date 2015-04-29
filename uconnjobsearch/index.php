@@ -81,7 +81,7 @@ function insertDeleteUpdateDB($sql, $method)
 	$conn = connectToDB();
 	$isSuccess = FALSE;
 	
-	$methodSwitch = ($method === "insert") ? TRUE : (mysqli_affected_rows($conn) == 1); 
+	 
 	
 	if ($conn->connect_error)
 	{
@@ -90,6 +90,7 @@ function insertDeleteUpdateDB($sql, $method)
 	else
 	{
 	    $result = $conn->query($sql);
+		$methodSwitch = ($method === "insert") ? TRUE : (mysqli_affected_rows($conn) == 1);
 		if ($result && $methodSwitch)
 		{
 		    $isSuccess = TRUE;

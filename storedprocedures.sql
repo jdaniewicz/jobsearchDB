@@ -363,10 +363,10 @@ END //
 
 #delete an application
 DELIMITER //
-CREATE PROCEDURE deleteApplication (IN jID INT, uName VARCHAR(45))
+CREATE PROCEDURE deleteApplication (IN jID INT, username VARCHAR(45))
 BEGIN
 DELETE FROM applies
-WHERE JobID=jID AND UName=uName;
+WHERE JobID=jID AND UName=username;
 END //
 
 #update a resumes objective and salary
