@@ -158,11 +158,13 @@ FROM user A
 WHERE A.UEmail=email;
 END //
 
-#get unfilled jobs for a user that they haven't applied for based on skills
+#get unfilled jobs for a user that they haven't applied for based on skills, create temp table
 DELIMITER //
-CREATE PROCEDURE getJobsForUserBySkill (IN uName VARCHAR(45))
+CREATE PROCEDURE getJobsForUserBySkillNotApplied (IN uName VARCHAR(45))
 BEGIN
-SELECT DISTINCT JobTitle, A.JobID
+CREATE temporary TABLE skillMatchNotApplied LIKE job;
+INSERT skillMatchNotApplied
+SELECT DISTINCT A.*
 FROM job A, resume C, skillset E, job_skills F 
 WHERE A.JFillStatus='No' AND C.UName=uName AND E.ResumeID=C.ResumeID AND F.SSkillID=E.SSkillID AND F.JobID=A.JobID AND JobTitle NOT IN(
 SELECT JobTitle
@@ -171,11 +173,28 @@ WHERE B.UName=uName AND A.JobID=B.JobID
 );
 END //
 
+#get unfilled jobs for a user that they have applied for based on skills, create temp table
+DELIMITER //
+CREATE PROCEDURE getJobsForUserBySkillApplied (IN uName VARCHAR(45))
+BEGIN
+CREATE temporary TABLE skillMatchApplied LIKE job;
+INSERT skillMatchApplied
+SELECT DISTINCT A.*
+FROM job A, resume C, skillset E, job_skills F 
+WHERE A.JFillStatus='No' AND C.UName=uName AND E.ResumeID=C.ResumeID AND F.SSkillID=E.SSkillID AND F.JobID=A.JobID AND JobTitle IN(
+SELECT JobTitle
+FROM job A, applies B
+WHERE B.UName=uName AND A.JobID=B.JobID
+);
+END //
+
 #get unfilled jobs for a user that they haven't applied for based on salary
 DELIMITER //
-CREATE PROCEDURE getJobsForUserBySalary (IN uName VARCHAR(45))
+CREATE PROCEDURE getJobsForUserBySalaryNotApplied (IN uName VARCHAR(45))
 BEGIN
-SELECT DISTINCT JobTitle, A.JobID
+CREATE temporary TABLE salaryMatchNotApplied LIKE job;
+INSERT salaryMatchNotApplied
+SELECT DISTINCT A.*
 FROM job A, resume B
 WHERE B.UName=uName AND A.JLowRange>=B.RSalaryMin AND A.JFillStatus='No' AND JobTitle NOT IN(
 SELECT JobTitle
@@ -184,11 +203,28 @@ WHERE B.UName=uName AND A.JobID=B.JobID
 );
 END //
 
-#get unfilled jobs for a user that they haven't applied for based on education
+#get unfilled jobs for a user that they have applied for based on salary
 DELIMITER //
-CREATE PROCEDURE getJobsForUserByEducation (IN uName VARCHAR(45))
+CREATE PROCEDURE getJobsForUserBySalaryApplied (IN uName VARCHAR(45))
 BEGIN
-SELECT DISTINCT A.JobTitle, A.JobID
+CREATE temporary TABLE salaryMatchApplied LIKE job;
+INSERT salaryMatchApplied
+SELECT DISTINCT A.*
+FROM job A, resume B
+WHERE B.UName=uName AND A.JLowRange>=B.RSalaryMin AND A.JFillStatus='No' AND JobTitle IN(
+SELECT JobTitle
+FROM job A, applies B
+WHERE B.UName=uName AND A.JobID=B.JobID
+);
+END //
+
+#get unfilled jobs for a user that they haven't applied for based on education, create temp table holding returned rows
+DELIMITER //
+CREATE PROCEDURE getJobsForUserByEducationNotApplied (IN uName VARCHAR(45))
+BEGIN
+CREATE temporary TABLE eduMatchNotApplied LIKE job;
+INSERT eduMatchNotApplied
+SELECT DISTINCT A.* #A.JobTitle, A.JobID
 FROM job A, resume C, education D, job_degreearea E, job_degreetype F
 WHERE C.UName=uName AND D.ResumeID=C.ResumeID AND D.DegreeAreaID=E.DegreeAreaID AND D.DegreeTypeID=F.DegreeTypeID AND E.JobID=A.JobID AND F.JobID=A.JobID AND A.JFillStatus='No' AND JobTitle NOT IN(
 SELECT JobTitle
@@ -196,6 +232,22 @@ FROM job A, applies B
 WHERE B.UName=uName AND A.JobID=B.JobID
 );
 END //
+
+#get unfilled jobs for a user that they've applied for based on education, create temp table holding returned rows
+DELIMITER //
+CREATE PROCEDURE getJobsForUserByEducationApplied (IN uName VARCHAR(45))
+BEGIN
+CREATE temporary TABLE eduMatchApplied LIKE job;
+INSERT eduMatchApplied
+SELECT DISTINCT A.* #A.JobTitle, A.JobID
+FROM job A, resume C, education D, job_degreearea E, job_degreetype F
+WHERE C.UName=uName AND D.ResumeID=C.ResumeID AND D.DegreeAreaID=E.DegreeAreaID AND D.DegreeTypeID=F.DegreeTypeID AND E.JobID=A.JobID AND F.JobID=A.JobID AND A.JFillStatus='No' AND JobTitle IN(
+SELECT JobTitle
+FROM job A, applies B
+WHERE B.UName=uName AND A.JobID=B.JobID
+);
+END //
+
 
 #get unfilled jobs for a user that they haven't applied for based on experience
 DELIMITER //
