@@ -163,9 +163,8 @@ $app->post('/applytojobs', function () use($app) {
 	{
 		$jobID = $job["jobID"];
 		$sql = "INSERT INTO applies(JobID, UName, ApplicationID, DateApplied)
-			VALUES ( ".$jobID." , " . $userName ." , 47, CURDATE())
-            ON DUPLICATE KEY UPDATE ApplicationID=VALUES(ApplicationID),DateApplied=VALUES(DateApplied)";
-		insertDeleteUpdateDB($sql, "insert");
+			VALUES ( ".$jobID." , " . $userName ." , 47, CURDATE())";
+		insertDeleteUpdate($sql, "insert");
 	}
 	  
 });

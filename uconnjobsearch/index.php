@@ -188,10 +188,10 @@ function checkCriteriaMatchesOnApplied($jobID, $userName)
 		$sqlSalary = "CALL getJobsForUserBySalaryApplied( ". $userName .")";
 		$sqlSkills = "CALL getJobsForUserBySkillApplied( ". $userName .")";
 		$sqlEducation = "CALL getJobsForUserByEducationApplied( ". $userName .")";
-		//$sqlExperience = "CALL getJobsForUserByExperienceApplied( ". $userName .")";
+		$sqlExperience = "CALL getJobsForUserByExperienceApplied( ". $userName .")";
 		
-		$queries = array($sqlSalary, $sqlSkills, $sqlEducation);
-		//Execute each stored procedure creating temp tables: eduMatchApplied, salaryMatchApplied, skillMatchApplied
+		$queries = array($sqlSalary, $sqlSkills, $sqlEducation, $sqlExperience );
+		//Execute each stored procedure creating temp tables: eduMatchApplied, salaryMatchApplied, skillMatchApplied, expMatchApplied
 		foreach($queries as $sql)
 		{
 			$result = $conn->query($sql);
@@ -205,7 +205,7 @@ function checkCriteriaMatchesOnApplied($jobID, $userName)
 		$salaryMatch = FALSE;
 		$skillMatch = FALSE;
 		$expMatch = FALSE;
-		$tempTables = array("eduMatchApplied", "salaryMatchApplied", "skillMatchApplied");
+		$tempTables = array("eduMatchApplied", "salaryMatchApplied", "skillMatchApplied", "expMatchApplied");
 		//See if given job exists in each table, toggling flags if it does
 		foreach($tempTables as $table)
 		{
@@ -216,7 +216,7 @@ function checkCriteriaMatchesOnApplied($jobID, $userName)
 				if($table === "eduMatchApplied") $eduMatch = TRUE;
 				if($table === "salaryMatchApplied") $salaryMatch = TRUE;
 				if($table === "skillMatchApplied") $skillMatch = TRUE;
-				//if($table === "eduMatchApplied") $eduMatch = TRUE;
+				if($table === "expMatchApplied") $expMatch = TRUE;
 			}
 			//Drop temp table when done
 			$sql = "DROP TABLE " . $table;
