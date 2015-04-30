@@ -185,7 +185,44 @@ $app->post('/deleteapplication', function () use($app) {
 	}
 	echo "success!";
 });
-
-
+/***************** POST criteria to retrieve  unapplied jobs for user *******/
+$app->post('/filterunappliedjobs', function () use($app) {
+	//Get username from current session cookies
+	$userName = safelyGetUserName();
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	//Parse json for values 
+	$jobTitle = putInSingleQuotes($json["jobTitle"]);
+	$company = putInSingleQuotes($json["company"]);
+	$salary = replaceWithNull($json["salary"]);
+	$location = replaceWithNull($json["location"]);
+	//Get jobs via filters
+	$sql = "CALL searchJobsNotApplied( ". $userName ." , " . $jobTitle . " , "
+		 . $company . " , " . $salary . " , ". $location . " )";
+	$json = queryTheDB($sql);
+	//Decode json of results again
+	$json = json_decode($json, true);
+	//Iterate through each job
+	$FinalJSON = array();
+	$count = 0;
+	foreach($json as $job)
+	{
+		//Grab jobID
+		$jobID = $job["JobID"];
+		//Check if job exists in user's matches on skills, edu, salary, exp
+		$resultArray = checkCriteriaMatchesOnNotApplied($jobID, $userName);
+		//Merge this array with $job
+		$row = array_merge($job, $resultArray);
+		$FinalJSON[$count] = $row;
+		$count = $count + 1;
+	}
+	//Encode $json into json
+	$json = $FinalJSON;
+	$json = json_encode($json);
+	echo $json;
+		
+});
 
 ?>

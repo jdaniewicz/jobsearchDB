@@ -416,3 +416,53 @@ Returns:
 	NO JSON but AJAX will return a success or fail accordingly
 
 ---------------------------------------------------------------------------------
+Figure 7. Filter through unapplied jobs given certain criteria. 
+NOTE that all the criteria are optional. However note that if you choose to exclude
+criteria you must submit an empty string "" in the json attribute's spot.
+
+NOTE AGAIN: This returns a lot of info and requires lots of calculation for the bool flags
+	The less the user filters the longer the request time!
+
+POST: '/filterunappliedjobs'
+
+Example post where all criteria excused:
+
+{
+  "jobTitle" : "",
+  "company" : "",
+  "salary" : "",
+  "location" : ""
+}
+
+Example post where all criteria are used:
+
+{
+  "jobTitle" : "Accountant",
+  "company" : "AC Technologies, Inc.",
+  "salary" : 25000,
+  "location" : 8
+}
+
+Example return (specifically for second json example):
+
+[
+    {
+        "JobID": "2",
+        "JListDate": "2001-01-02",
+        "JobTitle": "Accountant",
+        "JCity": "storrs",
+        "StateID": "8",
+        "Zipcode": "6279",
+        "JDuties": "Do work",
+        "JYRSExperience": "5",
+        "JLowRange": "25500",
+        "JHighRange": "50500",
+        "JFillStatus": "No",
+        "CName": "AC Technologies, Inc.",
+        "MatchEducation": true,
+        "MatchSalary": false,
+        "MatchSkill": true,
+        "MatchExperience": false
+    }
+]
+	
