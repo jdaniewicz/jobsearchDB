@@ -38,6 +38,83 @@
                 // Need to construct the correct url for the search need an API
             }
             
+            var data = {
+                "jobTitle" : (jobtitle) ? jobtitle : "",
+                "company" : (companyname) ? companyname : "",
+                "salary" : (salary) ? salary: "",
+                "location" : (location) ? location : ""
+            };
+           
+                            $("#example").DataTable({
+      		                    "paging" : true,
+      		                    "ordering" : true,
+      		                    "info" : true,
+      		                    "searching": true,
+                                //"data" : result,
+                                 "ajax" : {
+        				            "url" : "filterunappliedjobs",     //seeker_jobs/" + u,
+				                    "dataSrc" : "",
+                                     type:"POST",
+                                     data: function(d) {
+                                         return JSON.stringify(data);
+                                     }
+      		                        },
+                                "columns" : [
+                                    
+                                    { data: "JobID",visible:false},
+                                     {data: "JListDate"},
+                                    {data:"JobTitle"},
+                                    {data:"JCity"},
+                                    {data: "StateID", visible:false},
+                                    {data:"Zipcode"},
+                                    {data:"JDuties"},
+                                    {data:"JYRSExperience"},
+                                    {data:"JLowRange"},
+                                    {data:"JHighRange"},
+                                    {data:"JFillStatus"},
+                                    {data:"CName"},
+                                    {data:"MatchEducation"},
+                                    {data:"MatchSalary"},
+                                    {data:"MatchSkill"},
+                                    {data:"MatchExperience"}
+                                ],
+                                columnDefs : [
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 12
+                    },
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 13
+                    },
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 14
+                    },
+                    {
+                        render : function(d,t,r) {
+                            return (d == true) ? 
+                                '<span class="glyphicon glyphicon-ok"></span>' :
+                                '<span class="glyphicon glyphicon-remove"></span>';
+                        },
+                        targets: 15
+                    },
+                ]
+                            });
+                                        
+            /*
             $("#example").DataTable({
       		    "paging" : true,
       		    "ordering" : true,
@@ -93,6 +170,7 @@
                     },
                 ]
    			});
+            */
         
             $("#search").click(function(){
             	var url = "searchscreen"; //"http://127.0.0.1:8080/figure3.html";
@@ -213,12 +291,23 @@
             <tr>
        
                 <!-- NEED TO MATCH THE NUMBER OF COLUMNS THAT we added above and set labels as well -->
-                <th>Job Title</th>
-                <th>MatchEducation</th>
-                <th>MatchSalary</th>
-                <th>MatchSkill</th>
-                <th>MatchExperience</th>
-                <th>Job ID</th>
+                <th>JOBID</th>
+                <th>List Date</th>
+                <th>Title</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Zipcode</th>
+                <th>Duties</th>
+                <th>Yr. Exp.</th>
+                <th>Low</th>
+                <th>High</th>
+                <th>Filled</th>
+                <th>Company</th>
+                <th>Educ.</th>
+                <th>Salary</th>
+                <th>Skill</th>
+                <th>Exper.</th>
+               
             </tr>
         </thead>
             </table>
