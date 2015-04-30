@@ -594,3 +594,31 @@ Returns:
 	NO JSON but AJAX will return a success or fail accordingly
 	
 ---------------------------------------------------------------------------------------------------------------------
+
+Get job details including number of total applicants. Must be logged in for it to work!
+
+GET: '/job_details/{jobID}'
+
+Example GET:
+	'/job_details/5'
+	
+Example response:
+
+[
+    {
+        "JobID": "5",
+        "JListDate": "2001-01-05",
+        "JobTitle": "Assistant Program Director",
+        "JCity": "storrs",
+        "StateID": "8",
+        "Zipcode": "6279",
+        "JDuties": "Do work",
+        "JYRSExperience": "5",
+        "JLowRange": "27000",
+        "JHighRange": "52000",
+        "JFillStatus": "No",
+        "CName": "Analex Corporation",
+        "TotalApplicants": "3"
+    }
+]
+	

@@ -133,4 +133,11 @@ $app->get('/user_skills', function () use($app) {
 	echo queryTheDB($myQuery);  
 });
 
+//Get job details with count of total applicants to job
+$app->get('/job_details/:jobID', function ($jobID) use($app) {
+	$jobID = putInSingleQuotes($jobID);
+	$myQuery = "CALL getJobDetails( ". $jobID ." )";
+	echo queryTheDB($myQuery);    
+});
+
 ?>
