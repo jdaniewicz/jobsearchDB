@@ -503,4 +503,20 @@ Example Return:
     }
 ]
 -----------------------------------------------------------------------------
-	
+Delete record of user's previous job, user must be logged in for Figure 12
+
+POST: '/deletepriorjob'
+
+Example post:
+
+[
+  {
+  	"priorJobID" : 13
+  },
+  {
+  	"priorJobID" : 2
+  }
+]
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
