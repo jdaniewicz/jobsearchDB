@@ -1,13 +1,157 @@
 <html>
     <head>
         <title>Resume: Welcome to UConn's Job Search Database</title>
-    </head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css"
+            href="https://cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+        </link>
     
-    <body>
+     
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js">
+    </script>
+        <script>
+        $(document).ready(function() {
+            var u = localStorage.getItem("user");
+            
+        $("#example").DataTable({
+      "paging" : true,
+      "ordering" : true,
+      "info" : true,
+      "searching": true,
+      "ajax" : {
+         "url" : "user_job_history",
+         "dataSrc" : "",
+      },
+          
+      columns: [
+         
+          { data: "PJCompanyName" },
+        { data: "PJCity" },
+          { data: "Abbr" },
+          { data: "PJJobTitle" },
+          { data: "PJDuties" },
+          { data: "PJStartDate" },
+           { data: "PJEndDate" },
+          { data: "PjobID", visible: false}
+      ]
+   });
+        $('#example tbody').on( 'click', 'tr', function () {
+        			$(this).toggleClass('selected');
+    			} );
+        $("#newentry").click(function(){
+            var url = "experienceentry"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+        $("#previous").click(function(){
+            var url = "resumeupdate"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+         $("#next").click(function(){
+            var url = "resumeupdateexperience"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+         $("#cancel").click(function(){
+            var url = "main"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+        $("#deleteselected").click(function(){
+            var t = $("#example").DataTable();
+            
+            
+				var sr = t.rows('.selected').data();
+            var data = [];
+				sr.each(function(row) {
+					data.push({"priorJobID" : row.PjobID});
+				});
+				
+            $.ajax({
+                    url: "deletepriorjob", // login.php
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    success:
+                        function(result){
+                           // alert(result);
+                           // var url = "main";//http://127.0.0.1:8080/figure6.html";
+                            //$(location).attr('href',url);
+                            //$("#login").hide();
+                            //$("#nextpage").show();
+                            window.location.href = "resumeupdateexperience";
+                        },
+                    error: 
+                        function(result){
+                           //alert(result);    
+                            window.location.href = "resumeupdateexperience";
+                        }
+                        
+                });
+        });
+        
+        $("#selectall").click(function(){
+           var t = $("#example").DataTable();
+            t.rows(function(i,d,n){
+                return true;
+            }).nodes().to$().addClass("selected");
+            
+        });   
+            
+        $("#clearall").click(function(){
+           var t = $("#example").DataTable();
+            t.rows(function(i,d,n){
+                return true;
+            }).nodes().to$().removeClass("selected");
+        });
+        $("#exit").click(function(){
+            localStorage.removeItem("user");
+            var url = "login"; //"http://127.0.0.1:8080/figure3.html";
+                $(location).attr('href',url);
+            });
+            
+        });    
+        
+        
+    </script>
+            
+    
+    <body style="margin:20px">
         <h1> Job Search Database </h1>
         
         <p>
-            John Doe, please update your resume.
+            Please update your resume.
+            </p>
+         <p>
+            <button id=newentry>New entry</button>
+            <button id=previous>Previous</button>
+            <button id=next>Next</button>
+            <button id=deleteselected>Delete Selected</button>
+            <button id=cancel>Cancel</button>
+            
         </p>
+        <table id="example" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>   
+                <th>Company</th>
+                <th>City</th>
+                <th>Abbr</th>
+                <th>Title</th>
+                <th>Duties</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>JOBID</th>
+            </tr>
+        </thead>
+            </table>
+        
+
+
+    
     </body>
 <html>
