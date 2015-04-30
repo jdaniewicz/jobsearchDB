@@ -483,4 +483,24 @@ Example POST: '/deleteeducationrecord'
 
 Returns:
 	NO JSON but AJAX will return a success or fail accordingly
+-------------------------------------------------------------------------
+Retrieve users job history, user must be logged in for Figure 12
+
+GET: '/user_job_history'
+
+Example Return:
+
+[
+    {
+        "PJCompanyName": "Lockheed Martin",
+        "PJCity": "Mitchel Field",
+        "Abbr": "KS",
+        "PJJobTitle": "Missile Tester",
+        "PJDuties": "Tested Missiles",
+        "PJStartDate": "2003-09-01",
+        "PJEndDate": "2003-11-30",
+        "PjobID": "1"
+    }
+]
+-----------------------------------------------------------------------------
 	

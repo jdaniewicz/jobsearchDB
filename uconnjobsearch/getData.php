@@ -119,4 +119,11 @@ $app->get('/getuserunappliedjobs', function () use($app) {
 	echo $json;
 }); 
 
+//Get user education MUST BE LOGGED IN
+$app->get('/user_job_history', function () use($app) {
+	$userName = safelyGetUserName();
+	$myQuery = "CALL getJobHistory( " . $userName . " )";
+	echo queryTheDB($myQuery);    
+});
+
 ?>
