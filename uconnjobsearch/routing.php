@@ -109,7 +109,7 @@ $app->get('/updateprofile', function() use($app)
 	$app->render('figure15.html');
 });
 
-$app->get('/jobdetailscreen', function() use($app)
+$app->get('/jobdetailscreen/:id', function() use($app)
 {
 	$app->render('figure16.html');
 });
