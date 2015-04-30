@@ -622,3 +622,20 @@ Example response:
     }
 ]
 	
+-------------------------------------------------------------------------------------------------------------------------
+
+Get objective and salary for user. Creates a resume for the user if they don't already have one. Use to populate 9
+on page load.
+
+GET: '/objective_salary'
+
+Example return:
+
+[
+    {
+        "RObjective": "Be a pokemon trainer",
+        "RSalaryMin": "20000"
+    }
+]
+
+--------------------------------------------------------------------------------------------------------------------------

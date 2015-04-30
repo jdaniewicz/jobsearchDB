@@ -140,4 +140,26 @@ $app->get('/job_details/:jobID', function ($jobID) use($app) {
 	echo queryTheDB($myQuery);    
 });
 
+//Get objective and salary
+$app->get('/objective_salary', function () use($app) {
+	//Check if current user has a resume in the DB
+	$userName = safelyGetUserName();
+	$sql = "SELECT ResumeID FROM Resume WHERE UName = ". $userName;
+	$boolArray = array('false', 'true');
+	$resumeExists = verifyResultsExist($sql);	
+	//If resume doesn't exist create one
+	if(!$resumeExists)
+	{
+		$sql = "INSERT INTO resume(UName) VALUES ( ". $userName .")";
+		insertDeleteUpdateDB($sql, "insert");
+	}
+	//Get resumeID from userName
+	$sql = "SELECT ResumeID FROM resume Where UName = " . $userName;
+	$results = queryTheDB($sql);
+	$results = json_decode($results, true);
+	$resumeID = $results[0]["ResumeID"];
+	$sql = "SELECT RObjective, RSalaryMin FROM Resume WHERE ResumeID = ". $resumeID;
+	echo queryTheDB($sql);  
+});
+
 ?>
