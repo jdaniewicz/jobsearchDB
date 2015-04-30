@@ -81,6 +81,13 @@
                                 columnDefs : [
                     {
                         render : function(d,t,r) {
+                            return '<a href="jobdetailscreen/' + r.JobID + '">' + d + '</a>';
+                              
+                        },
+                        targets: 2
+                    },
+                    {
+                        render : function(d,t,r) {
                             return (d == true) ? 
                                 '<span class="glyphicon glyphicon-ok"></span>' :
                                 '<span class="glyphicon glyphicon-remove"></span>';
