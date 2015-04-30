@@ -482,7 +482,7 @@ END //
 DELIMITER //
 CREATE PROCEDURE getUserSkills (IN uName VARCHAR(45))
 BEGIN
-SELECT SSkillName
+SELECT A.SSkillName, A.SSkillID
 FROM skill A, skillset B, resume C
 WHERE A.SSkillID=B.SSkillID AND B.ResumeID=C.ResumeID AND C.UName=uName;
 END //
