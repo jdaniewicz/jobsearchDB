@@ -511,3 +511,41 @@ UPDATE user
 SET UPasswd=passwd, UFName=fName, ULName=lName, UStreet1=address, UStreet2=address2, UCity=city, StateID=state, Zipcode=zip, UEmail=email, UPhone=phone, UFax=fax, UCell=cell, UHomePage=web
 WHERE UName=uName;
 END //
+
+# search through jobs user has not applied to filtering by given criteria.
+# username is required, the other parameters are optional but if left out must have null in their place.
+DELIMITER //
+CREATE PROCEDURE searchJobsNotApplied (IN username VARCHAR(45), jTitle VARCHAR(45), company VARCHAR(45),
+	sal INT, loc INT )
+BEGIN
+	SET SQL_SAFE_UPDATES=0;
+	-- Get all jobs not applied to for user and stick into temp table
+    CREATE temporary TABLE tempJob LIKE job;
+	INSERT INTO tempJob
+	SELECT A.*
+	FROM job A
+	WHERE A.JFillStatus='No'
+    AND JobTitle NOT IN
+	(
+		SELECT JobTitle
+		FROM job A, applies B
+		WHERE B.UName=username AND A.JobID=B.JobID
+	);
+    -- Begin filtering down results based on optional arguments
+    IF JTitle IS NOT NULL THEN
+		DELETE FROM tempJob WHERE STRCMP(jTitle, tempJob.JobTitle) <> 0;
+    END IF;
+    IF company IS NOT NULL THEN
+		DELETE FROM tempJob WHERE STRCMP(company, tempJob.CName) <> 0;
+    END IF;
+    IF sal IS NOT NULL THEN
+		DELETE FROM tempJob WHERE tempJob.JLowRange < sal;
+    END IF;
+    IF loc IS NOT NULL THEN
+		DELETE FROM tempJob WHERE loc <> tempJob.StateID;
+    END IF;
+    -- Return the final results of temp table and delete it
+    SELECT * FROM tempJob;
+    DROP TABLE tempJob;
+    SET SQL_SAFE_UPDATES=1;
+END //
