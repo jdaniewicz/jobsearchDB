@@ -97,6 +97,7 @@ function insertDeleteUpdateDB($sql, $method)
 		}
 		else
 		{
+			echo $sql;
 			die("Database Query fail:" .mysqli_error($conn));
 		}
 		$conn->close();

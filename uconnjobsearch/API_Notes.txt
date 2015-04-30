@@ -541,3 +541,56 @@ Example post:
 Returns:
 	NO JSON but AJAX will return a success or fail accordingly
 ---------------------------------------------------------------------------------
+
+Get a user's skill set, must be logged in Figure 14
+
+GET: '/user_skills'
+
+Example return:
+
+[
+    {
+        "SSkillName": "C++",
+        "SSkillID": "1"
+    },
+    {
+        "SSkillName": "C",
+        "SSkillID": "2"
+    },
+    {
+        "SSkillName": "Java",
+        "SSkillID": "3"
+    }
+]
+
+-----------------------------------------------------------------------------------------------
+
+Post a user's skill set, must be logged in Figure 14. Can handle duplicate entries without error. Every time you update POST
+to the DB the new skillset the old one gets erased and rewritten with what you send.
+
+POST: '/user_skills'
+
+Example post:
+
+[
+	{
+  	"SSkillID": 1
+	},
+	{
+  	"SSkillID": 2
+	},
+  	{
+  	"SSkillID": 3
+	},
+  	{
+  	"SSkillID": 4
+	},
+  	{
+  	"SSkillID": 5
+	}
+]
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
+	
+---------------------------------------------------------------------------------------------------------------------

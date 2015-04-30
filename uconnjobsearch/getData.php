@@ -126,4 +126,11 @@ $app->get('/user_job_history', function () use($app) {
 	echo queryTheDB($myQuery);    
 });
 
+//Get user skills, MUST BE LOGGED IN Fig 14
+$app->get('/user_skills', function () use($app) {
+	$userName = safelyGetUserName();
+	$myQuery = "CALL getUserSkills( " . $userName . " )";
+	echo queryTheDB($myQuery);  
+});
+
 ?>

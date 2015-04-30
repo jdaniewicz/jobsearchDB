@@ -549,3 +549,12 @@ BEGIN
     DROP TABLE tempJob;
     SET SQL_SAFE_UPDATES=1;
 END //
+
+#delete skillset to repopulate for user given the resumeID
+DELIMITER //
+CREATE PROCEDURE deleteResumeSkillset (IN rID INT)
+BEGIN
+SET SQL_SAFE_UPDATES=0;
+DELETE FROM skillset WHERE ResumeID = rID;
+-- SET SQL_SAFE_UPDATES=1;
+END //

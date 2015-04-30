@@ -290,6 +290,48 @@ $app->post('/experienceentry', function() use($app)
 	 
 });
 
+/**************** ADD Skill to current user ******************************/
+$app->post('/user_skills', function () use($app) {
+	//Get username from current session cookies
+	$userName = safelyGetUserName();
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	//Get resumeID from userName
+	$sql = "SELECT ResumeID FROM resume Where UName = " . $userName;
+	$results = queryTheDB($sql);
+	$results = json_decode($results, true);
+	$resumeID = $results[0]["ResumeID"];
+	//Connect to DB to delete old skillset
+	$conn = connectToDB();
+    // Check connection
+    if ($conn->connect_error)
+	{
+    	die("Connection failed: " . $conn->connect_error);
+    }
+	else
+	{
+		//First clear old skillset
+		$sql = "CALL deleteResumeSkillset(". $resumeID.")";
+	    $conn->query($sql);
+		//Dont forget to reset safety on DB IMPORTANT!!!!!
+		$sql = "SET SQL_SAFE_UPDATES=1";
+		$conn->query($sql);
+		$conn->close();
+    }
+	//Now update skillset
+	foreach($json as $job)
+	{
+		$skillID = $job["SSkillID"];
+		$sql = "INSERT INTO skillset(SSkillID, ResumeID)
+			VALUES ( ".$skillID." , " . $resumeID .")
+            ON DUPLICATE KEY UPDATE SSKillID=VALUES(SSkillID),ResumeID=VALUES(ResumeID)";
+		insertDeleteUpdateDB($sql, "insert");
+	}
+	echo "success!";  
+});
+
 
 
 ?>
