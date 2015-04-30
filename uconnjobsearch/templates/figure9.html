@@ -16,6 +16,24 @@
         
         <script>
         $(document).ready(function() {
+        
+                
+                $.ajax({
+                    url: "objective_salary",
+                    type: "GET",
+                    dataType: 'json',
+                    success:
+                        function(result){
+                            $("#objective").val(result[0].RObjective);
+                            $("#salary").val(result[0].RSalaryMin);
+                           
+                        },
+                    error: 
+                        function(result){
+                           alert("Error" + result);    
+                        }
+                        
+                });
            
             $("#submit9").click(function(){
                 var o = $("#objective").val();
