@@ -465,4 +465,22 @@ Example return (specifically for second json example):
         "MatchExperience": false
     }
 ]
+------------------------------------------------------------------------
+Delete education records for user given educationID for Figure 10
+
+POST: 
+
+Example POST: '/deleteeducationrecord'
+
+[
+  {
+  	"educationID" : 13
+  },
+  {
+  	"educationID" : 2
+  }
+]
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
 	

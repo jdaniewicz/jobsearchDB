@@ -224,5 +224,22 @@ $app->post('/filterunappliedjobs', function () use($app) {
 	echo $json;
 		
 });
+/************** Delete Education Entries for user **************************/
+$app->post('/deleteeducationrecord', function () use($app) {
+	//Get username from current session cookies
+	$userName = safelyGetUserName();
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	foreach($json as $application)
+	{
+		$eduID = $application["educationID"];
+		$sql = "CALL deleteEduEntry( " . $eduID . " )";
+		insertDeleteUpdateDB($sql, "delete");
+	}
+	echo "success!";
+});
+
 
 ?>
