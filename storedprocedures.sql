@@ -558,3 +558,13 @@ SET SQL_SAFE_UPDATES=0;
 DELETE FROM skillset WHERE ResumeID = rID;
 -- SET SQL_SAFE_UPDATES=1;
 END //
+
+#get job details along with a count of total applicants for this job
+DELIMITER //
+CREATE PROCEDURE getJobDetails (IN jID INT)
+BEGIN
+SELECT j.*, count(*) as 'TotalApplicants' 
+FROM job as j 
+	join applies as a on j.jobID = a.jobID
+WHERE j.jobID = jID;
+END //
