@@ -99,27 +99,38 @@ $app->post('/resumeupdate', function() use($app)
 	$body = $request->getBody();
 	$json = json_decode($body, true);
 	//Parse the json for the values 
-	$objective = $json["objective"];
+	$objective = putInSingleQuotes($json["objective"]);
 	$salary = $json["salary"];
+	
 	//Save these values in session
-	session_start();
-	$_SESSION["objective"] = $objective;
-	$_SESSION["salary"] = $salary;
+	//session_start();
+	//$_SESSION["objective"] = $objective;
+	//$_SESSION["salary"] = $salary;
 	
 	//Check if current user has a resume in the DB
-	$userName = $_SESSION["userName"];
+	$userName = safelyGetUserName();
+	//$userName = $_SESSION["userName"];
 	$sql = "SELECT ResumeID FROM Resume WHERE UName = ". $userName;
 	$boolArray = array('false', 'true');
 	$resumeExists = verifyResultsExist($sql);
-	echo $_SESSION["objective"];
+	//echo $_SESSION["objective"];
 	
 	//If resume doesn't exist create one
 	if(!$resumeExists)
 	{
 		$sql = "INSERT INTO resume(UName) VALUES ( ". $userName .")";
 		insertDeleteUpdateDB($sql, "insert");
-		echo "RECORD CREATED!";
+		//echo "RECORD CREATED!";
 	}
+	//Get resumeID from userName
+	$sql = "SELECT ResumeID FROM resume Where UName = " . $userName;
+	$results = queryTheDB($sql);
+	$results = json_decode($results, true);
+	$resumeID = $results[0]["ResumeID"];
+	//Update objective and salary in DB
+	$sql = "CALL updateObjAndSal( ". $resumeID ." , ". $objective . " , " . $salary . " )";
+	insertDeleteUpdateDB($sql, "update");
+	//updateObjAndSal`(IN id INT, obj VARCHAR(500), sal INT)
 });
 /********* CREATING NEW EDUCATION ENTRY ********************************/
 $app->post('/educationentryscreen', function() use($app)

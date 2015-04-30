@@ -13,8 +13,7 @@
         <script>
         $(document).ready(function() {
            
-            $("#submit9").click(function(e){
-                e.preventDefault();    
+            $("#submit9").click(function(){
                 var c = $("#company").val();
                 var t = $("#title").val();
                 var l = $("#location").val();
@@ -70,7 +69,7 @@
                             window.location.href = url;
                             //var url = "resumeupdateeducation";//http://127.0.0.1:8080/figure6.html";
                             //$(location).attr('href',url);
-                             //window.location.href = url;
+                             
                             return false;
                         }
                         
