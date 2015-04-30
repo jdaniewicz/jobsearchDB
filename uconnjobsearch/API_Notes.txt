@@ -520,3 +520,24 @@ Example post:
 
 Returns:
 	NO JSON but AJAX will return a success or fail accordingly
+-------------------------------------------------------------------------------
+
+Add Prior job experience to user resume, must be logged in for Figure 13
+
+POST: '/experienceentry'
+
+Example post:
+
+{
+  "company": "WYLD STALLIONS INC.",
+  "jobTitle": "Lead Guitar",
+  "location": "Venice Beach",
+  "state": 5,
+  "duties": "Being most excellent",
+  "startDate": "2000-01-25",
+  "endDate": "2008-06-25"
+}
+
+Returns:
+	NO JSON but AJAX will return a success or fail accordingly
+---------------------------------------------------------------------------------

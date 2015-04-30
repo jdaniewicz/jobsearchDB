@@ -258,5 +258,38 @@ $app->post('/deletepriorjob', function () use($app) {
 	echo "success!";
 });
 
+/********* CREATING NEW EXPERIENCE ENTRY ********************************/
+$app->post('/experienceentry', function() use($app)
+{
+	//Grab json from request
+	$request = $app->request();
+	$body = $request->getBody();
+	//echo var_dump($body);
+	$json = json_decode($body, true);
+	//echo $json;
+	//Parse the json
+	$company = putInSingleQuotes($json["company"]);
+	$jobTitle = putInSingleQuotes($json["jobTitle"]);
+	$location = putInSingleQuotes($json["location"]);
+	$state = $json["state"];
+	$duties = putInSingleQuotes($json["duties"]);
+	$startDate = putInSingleQuotes($json["startDate"]);
+	$endDate = putInSingleQuotes($json["endDate"]);
+	//Get resumeID from userName
+	$userName = safelyGetUserName();
+	$sql = "SELECT ResumeID FROM resume Where UName = " . $userName;
+	$results = queryTheDB($sql);
+	$results = json_decode($results, true);
+	$resumeID = $results[0]["ResumeID"];
+	
+	//Insert into DB
+	$sql = "CALL addJobHistoryEntry( ". $company . " , ". $jobTitle . " , ". $location." , ". $state;
+	$sql .= " , ". $duties . " , ". $startDate . " , ". $endDate . " , " .$resumeID ." ) ";
+	//echo $sql;
+	insertDeleteUpdateDB($sql, "insert"); 
+	 
+});
+
+
 
 ?>
