@@ -2,7 +2,7 @@
 
 
 
-/** MATT THIS IS WHERE YOU EDIT AND CREATE PAGE ROUTES **/
+// Author: Matt Nelson, CoAuthor:
 
 
 // In this case '/' means the page 'test.html' in the templates folder gets pulled up when 
