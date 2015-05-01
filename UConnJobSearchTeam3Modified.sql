@@ -1,3 +1,6 @@
+#UConnJobSearch Database Schema
+#Created by Team 3, with modifications by Ryan Tracey
+
 -- phpMyAdmin SQL Dump
 -- version 2.11.0
 -- http://www.phpmyadmin.net

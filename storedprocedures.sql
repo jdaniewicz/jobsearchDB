@@ -1,4 +1,11 @@
-#1
+#UConnJobSearch Stored Procedures
+#Contributors: Ryan Tracey and Jeffrey Daniewicz
+
+-- ----------------------------------------------
+-- FOR ADMINISTRATOR FUNCTIONS
+-- ----------------------------------------------
+
+#get a summary of all job seekers
 DELIMITER //
 CREATE PROCEDURE getSeekerSummary ()
 BEGIN
@@ -8,7 +15,7 @@ WHERE A.UName=B.UName AND A.StateID=C.StateID
 ORDER BY Abbr;
 END //
 
-#2
+#get a list of all jobs that a seeker has applied for
 DELIMITER //
 CREATE PROCEDURE getSeekerJobs (IN seekerLName VARCHAR(45))
 BEGIN
@@ -17,7 +24,7 @@ FROM user A, job B, applies C
 WHERE ULName=seekerLName AND A.UName=C.UName AND B.JobID=C.JobID;
 END //
 
-#3
+#get a list of all the jobs that a company has listed
 DELIMITER //
 CREATE PROCEDURE getCompanyJobs (IN companyName VARCHAR(45))
 BEGIN
@@ -27,7 +34,7 @@ WHERE CName=companyName
 ORDER BY JobTitle;
 END //
 
-#4
+#get a list of jobs posted within a date range
 DELIMITER //
 CREATE PROCEDURE getNewJobs (IN date1 DATE, date2 DATE)
 BEGIN
@@ -36,7 +43,7 @@ FROM job
 WHERE JListDate BETWEEN date1 AND date2;
 END //
 
-#5
+#get a list of jobs by their salary value and title
 DELIMITER //
 CREATE PROCEDURE getJobInfoFromTitleAndSalary (IN title VARCHAR(45), salary INT)
 BEGIN
@@ -45,7 +52,7 @@ FROM job
 WHERE JobTitle=title AND salary BETWEEN JLowRange AND JHighRange;
 END //
 
-#6
+#get a list of all job seekers with a particular id
 DELIMITER //
 CREATE PROCEDURE getSeekersFromID (IN jID INT)
 BEGIN
@@ -54,7 +61,7 @@ FROM user A, applies B
 WHERE A.UName=B.UName AND B.JobID=jID;
 END //
 
-#7
+#get a list of all seekers from a particular university with bachelor's degrees
 DELIMITER //
 CREATE PROCEDURE getSeekersFromUni (IN uniName VARCHAR(45))
 BEGIN
@@ -63,7 +70,7 @@ FROM user A, education B, university C, degreetype D, resume E
 WHERE C.UniversityName=uniName AND C.UniversityID=B.EUniversityID AND D.DegreeType='Bachelors Degree' AND B.DegreeTypeID=D.DegreeTypeID AND E.ResumeID=B.ResumeID AND E.UName=A.UName;
 END //
 
-#8
+#get a list of all payments within a date range
 DELIMITER //
 CREATE PROCEDURE getPaymentReportByDateRange (IN date1 date, date2 date)
 BEGIN
@@ -72,7 +79,7 @@ FROM payment A, pstatus B
 WHERE A.PStatusID=B.PStatusID AND PDate BETWEEN date1 AND date2;
 END //
 
-#9
+#get a list of all bank payment ids
 DELIMITER //
 CREATE PROCEDURE getBankPaymentId (IN id INT)
 BEGIN
@@ -81,6 +88,7 @@ FROM bankpayment
 WHERE PaymentID=id;
 END //
 
+#get a list of all credit card payment ids
 DELIMITER //
 CREATE PROCEDURE getCreditCardPaymentId (IN id INT)
 BEGIN
@@ -89,6 +97,7 @@ FROM creditcard
 WHERE PaymentID=id;
 END //
 
+#get a list of all invoice payment ids
 DELIMITER //
 CREATE PROCEDURE getInvoicePaymentId (IN id INT)
 BEGIN
@@ -97,6 +106,7 @@ FROM invoice
 WHERE PaymentID=id;
 END //
 
+#get a list of all online payment ids
 DELIMITER //
 CREATE PROCEDURE getOnlineServicePaymentId (IN id INT)
 BEGIN
@@ -105,7 +115,7 @@ FROM onlineservice
 WHERE PaymentID=id;
 END //
 
-#9
+#get a list of all jobs with a particular skill
 DELIMITER //
 CREATE PROCEDURE getJobsWithSkillName (IN skillName VARCHAR(45))
 BEGIN
@@ -114,7 +124,7 @@ FROM job A, job_skills B, skill C
 WHERE C.SSkillName=skillName AND C.SSkillID=B.SSkillID AND B.JobID=A.JobID;
 END //
 
-#10
+#get a list of all seekers with a particular skill
 DELIMITER //
 CREATE PROCEDURE getUsersWithSkillName (IN skillName VARCHAR(45))
 BEGIN
@@ -122,6 +132,10 @@ SELECT UFName, ULName, UStreet1, UCity, Zipcode, UEmail
 FROM user A, resume B, skillset C, skill D
 WHERE D.SSkillName=skillName AND D.SSkillID=C.SSkillID AND C.ResumeID=B.ResumeID AND B.UName=A.UName;
 END //
+
+-- ----------------------------------------------
+-- FOR SEEKER FUNCTIONS
+-- ----------------------------------------------
 
 #Return a user provided Username exists and the provided password matches 
 DELIMITER //
