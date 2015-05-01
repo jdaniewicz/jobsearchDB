@@ -85,7 +85,10 @@
                                 columnDefs : [
                     {
                         render : function(d,t,r) {
-                            return '<a href="jobdetailscreen/' + r.JobID + '">' + d + '</a>';
+                            
+                            // NOTE: uncomment to remove popup and comment line below it
+                            //return '<a href="jobdetailscreen/' + r.JobID + '">' + d + '</a>';
+                            return '<a href="#" data-toggle="modal" onclick="$(this).openw(' + r.JobID + ');return false">' + d + '</a>';
                               
                         },
                         targets: 2
@@ -273,6 +276,38 @@
             window.location.href = url;
             });
             
+            
+            $.fn.openw = function(id) {
+                
+                var url = "http://localhost/uconnjobsearch/job_details/" + id;
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: 'json',
+                    success:
+                        function(result){
+                            $("#JListDate").val(result[0].JListDate);
+                            $("#JobTitle").val(result[0].JobTitle);
+                            $("#JCity").val(result[0].JCity);
+                            $("#Zipcode").val(result[0].Zipcode);
+                            $("#JDuties").val(result[0].JDuties);
+                            $("#JYRSExperience").val(result[0].JYRSExperience);
+                            $("#JLowRange").val(result[0].JLowRange);
+                            $("#JHighRange").val(result[0].JHighRange);
+                            $("#JFillStatus").val(result[0].JFillStatus);
+                            $("#CName").val(result[0].CName);
+                            $("#TotalApplicants").val(result[0].TotalApplicants);
+                            
+                            $('#bannerformmodal').modal('show');
+                        },
+                    error: 
+                        function(result){
+                           alert("Error" + result);    
+                        }
+                        
+                });
+            };
+            
         });    
         
         
@@ -281,7 +316,7 @@
     
     <body style="margin:20px">
         <h1> Job Search Database </h1>
-        
+        <div>
         <p>
             Welcome to the main screen.
             </p>
@@ -323,7 +358,91 @@
         </thead>
             </table>
 
-
+        </div>
+<div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true" id="bannerformmodal">
+<div class="modal-dialog modal-md">
+<div class="modal-content">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<h4 class="modal-title" id="myModalLabel">Job Details</h4>
+</div>
+<div class="modal-body">
+<div class="form-horizontal">
+<div class="form-group">
+<label class="control-label col-xs-2" for="JListDate">List Date:</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JListDate" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JobTitle">Title</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JobTitle" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JCity">City</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JCity" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="Zipcode">ZipCode</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="Zipcode" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JDuties">Duties</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JDuties" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JYRSExperience">Experience</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JYRSExperience" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JLowRange">Low Salary</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JLowRange" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JHighRange">High Salary</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JHighRange" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="JFillStatus">Fill Status</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="JFillStatus" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="CName">Company</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="CName" value="">
+</div>
+</div>
+<div class="form-group">
+<label class="control-label col-xs-2" for="TotalApplicants">Applicants</label>
+<div class="col-xs-10">
+<input class="form-control" type="text" readonly=readonly id="TotalApplicants" value="">
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div>
+</div>
     
     </body>
 <html>
