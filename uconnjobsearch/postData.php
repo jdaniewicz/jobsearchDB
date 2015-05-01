@@ -275,7 +275,6 @@ $app->post('/experienceentry', function() use($app)
 	//Grab json from request
 	$request = $app->request();
 	$body = $request->getBody();
-	//echo var_dump($body);
 	$json = json_decode($body, true);
 	//echo $json;
 	//Parse the json
@@ -343,6 +342,73 @@ $app->post('/user_skills', function () use($app) {
 	echo "success!";  
 });
 
+//Update a user's profile information
+$app->post('/userprofileupdate', function () use($app) {
+	$userName = safelyGetUserName();
+	//Grab the json in the request
+	$request = $app->request();
+	$body = $request->getBody();
+	$json = json_decode($body, true);
+	//Parse the json for the values 
+	$password = $json["password"];
+	$firstname = $json["firstname"];
+	$lastname = $json["lastname"];
+	$address1 = $json["address1"];
+	$address2 = $json["address2"];
+	$city = $json["city"];
+	$state = $json["state"];
+	$zip = $json["zip"];
+	$email = $json["email"];
+	$phone = $json["phone"]; 
+	$fax = $json["fax"];
+	$cell = $json["cell"];
+	$web = $json["web"];
+	
+	//Sanitize inputs
+	$password = putInSingleQuotes($password);
+	$firstname = putInSingleQuotes($firstname);
+	$lastname = putInSingleQuotes($lastname);
+	$address1 = putInSingleQuotes($address1);
+	$address2 = putInSingleQuotes($address2);
+	$city = putInSingleQuotes($city);
+	$zip = putInSingleQuotes($zip);
+	$email = putInSingleQuotes($email);
+	$phone = putInSingleQuotes($phone);
+	$fax = putInSingleQuotes($fax);
+	$cell = putInSingleQuotes($cell);
+	$web = putInSingleQuotes($web);
+	
+	//See if user is going to keep their old email
+	$myQuery = "SELECT UEmail FROM user WHERE UName = ". $userName;
+	$oldEmailData =  queryTheDB($myQuery);
+	$oldEmailData = json_decode($oldEmailData,true);
+	$oldEmail = putInSingleQuotes($oldEmailData[0]["UEmail"]);
+	
+	//Result flag, initially FALSE;
+	$uniqueEmail = FALSE;
+	if ($oldEmail === $email)
+	{
+		$uniqueEmail = TRUE;
+	}
+	else
+	{
+	//Check if this new email already exists
+	$uniqueEmail = !verifyResultsExist("CALL checkIfEmailExists( ".$email. " )");
+	}
+	
+	
+	
+	if($uniqueEmail)
+	{
+		$sql = "CALL updateUser( ". $userName ." , ". $password ." , ". $firstname ." , ";
+		$sql .= $lastname ." , ".$address1 ." , ".$address2 ." , ".$city ." , ";
+		$sql .= $state ." , ".$zip ." , ".$email ." , ".$phone ." , ".$fax ." , ";
+		$sql .= $cell ." , ".$web ." )";
+		$isSuccess = insertDeleteUpdateDB($sql, "insert");
+	}
+	$parameter = 0;
+	echo json_encode(array("isEmailUnique" => $uniqueEmail ));
+});
 
 
 ?>

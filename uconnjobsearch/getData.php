@@ -162,4 +162,11 @@ $app->get('/objective_salary', function () use($app) {
 	echo queryTheDB($sql);  
 });
 
+//Get a user's profile information
+$app->get('/userprofileupdate', function () use($app) {
+	$userName = safelyGetUserName();	
+	$myQuery = "SELECT * FROM user WHERE UName = ". $userName;
+	echo queryTheDB($myQuery);    
+});
+
 ?>

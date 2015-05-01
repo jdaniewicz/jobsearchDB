@@ -639,3 +639,62 @@ Example return:
 ]
 
 --------------------------------------------------------------------------------------------------------------------------
+
+Get user profile information for profile update screen Fig. 15
+
+GET: '/userprofileupdate'
+
+Example return:
+
+[
+    {
+        "UName": "Daredevil",
+        "UPasswd": "test",
+        "UFName": "MATT",
+        "ULName": "MURDOCH",
+        "UStreet1": "SOME",
+        "UStreet2": "WHERE",
+        "UCity": "NYC",
+        "StateID": "1",
+        "Zipcode": "06248",
+        "UEmail": "DD@hotmail.com",
+        "UPhone": "860-555-12",
+        "UFax": "860-555-12",
+        "UCell": "860-555-12",
+        "UHomePage": "doge.com",
+        "UStatusID": "0"
+    }
+]
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Update user's profile for screen Fig. 15
+
+POST: '/userprofileupdate'
+
+Example Post:
+
+    {
+        "password": "test",
+        "firstname": "MATT",
+        "lastname": "MURDOCH",
+        "address1": "SOME",
+        "address2": "WHERE",
+        "city": "NYC",
+        "state": 1,
+        "zip": "06248",
+        "email": "DD@hotmail.com",
+        "phone": "860-555-12",
+        "fax": "860-555-12",
+        "cell": "860-555-12",
+        "web": "doge.com"
+    }
+
+Example return:
+
+{
+    "isEmailUnique": true
+}
+
+Where if the user decides to keep their old email this will still be counted as "Unique password".
+In fact if you get the profile results and then submit without changing anything there will be no error.
